@@ -1,0 +1,3 @@
+[submodule "aga_tables"]
+	path = aga_tables
+	url = https://github.com/renatoexpert/aga_tables
