@@ -50,12 +50,9 @@ fn get_table5() -> (HashMap<u8, f64>, HashMap<u8, f64>) {
 		let value: f64 = *&table_5["data"][index][parameter].clone().as_f64().unwrap_or(default);
 		return value;
 	};
-	let mut populate = | cid: u8 | {
+	for cid in 1..22 {
 		QIB.insert(cid, fetch(cid, "Q"));
 		HIB.insert(cid, fetch(cid, "F"));
-	};
-	for cid in 1..22 {
-		populate(cid);
 	}
 	return (QIB, HIB);
 }
