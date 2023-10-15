@@ -24,12 +24,13 @@ fn get_table4() -> (HashMap<u8, f64>) {
 	return A;
 }
 
-fn get_table5() -> (HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>) {
+fn get_table5() -> (HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>) {
 	let table_5 = read_table(5);
 	let default: f64 = *&table_5["default_value"].clone().as_f64().unwrap();
 	let mut QIB: HashMap<u8, f64> = HashMap::new();
 	let mut HIB: HashMap<u8, f64> = HashMap::new();
 	let mut RKIB: HashMap<u8, f64> = HashMap::new();
+	let mut EIB: HashMap<u8, f64> = HashMap::new();
 	let fetch = | cid: u8, parameter: &str | -> f64 {
 		let index: String = cid.to_string();
 		let value: f64 = *&table_5["data"][index][parameter].clone().as_f64().unwrap_or(default);
@@ -39,8 +40,9 @@ fn get_table5() -> (HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>) {
 		QIB.insert(cid, fetch(cid, "Q"));
 		HIB.insert(cid, fetch(cid, "F"));
 		RKIB.insert(cid, fetch(cid, "K"));
+		EIB.insert(cid, fetch(cid, "E"));
 	}
-	return (QIB, HIB, RKIB);
+	return (QIB, HIB, RKIB, EIB);
 }
 
 
@@ -48,8 +50,8 @@ pub fn blockdata() {
 	//	Equation of state parameters
 	let (A) = get_table4();
 	//	Individual Component Parameters
-	let (QIB, HIB, RKIB) = get_table5();
-	dbg!(QIB, HIB, RKIB);
+	let (QIB, HIB, RKIB, EIB) = get_table5();
+	dbg!(QIB, HIB, RKIB, EIB);
 	/*
 	let A get A parameters from table 4
 	*/
