@@ -14,12 +14,12 @@ fn read_table(table_num: u8) -> Value {
 	return table;
 }
 
-fn gen_a(table_4: Value) -> HashMap<u8, f64> {
-	let data = &table_4["data"];
+fn get_table4() -> (HashMap<u8, f64>) {
+	let table_4 = read_table(4);
 	let mut A: HashMap<u8, f64> = HashMap::new();
 	for cid in 1..59 {
-		let value = &data[cid.to_string()]["a"].clone().as_f64().unwrap();
-		A.insert(cid, *value);
+		let value = *&table_4["data"][cid.to_string()]["a"].clone().as_f64().unwrap();
+		A.insert(cid, value);
 	}
 	return A;
 }
@@ -44,8 +44,7 @@ fn get_table5() -> (HashMap<u8, f64>, HashMap<u8, f64>) {
 
 pub fn blockdata() {
 	//	Equation of state parameters
-	let table_4 = read_table(4);
-	let A = gen_a(table_4);
+	let (A) = get_table4();
 	//	Individual Component Parameters
 	let (QIB, HIB) = get_table5();
 	dbg!(QIB, HIB);
