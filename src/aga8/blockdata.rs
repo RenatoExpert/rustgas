@@ -5,22 +5,6 @@ use std::string::String;
 use std::io::Read;
 use std::collections::HashMap;
 
-#[derive(Clone, Debug)]
-struct Table {
-    aga_num: u8,
-    year: u32,
-    table_num: u8,
-    default_value: f64,
-    data: HashMap<String, DataEntry>
-}
-
-#[derive(Clone, Debug)]
-struct DataEntry {
-    a: f64,
-    b: u8,
-    u: Option<f64> // Use Option<f64> for fields that are optional in the JSON
-}
-
 fn read_table(table_num: u8) -> Value {
 	let path: String = format!("/var/rustgas/aga_tables/AGA8/table{}.json", table_num);
 	let mut file = File::open(path).unwrap();
