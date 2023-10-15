@@ -30,13 +30,36 @@ fn read_table(table_num: u8) -> Value {
 	return table;
 }
 
+fn gen_a(table_4: Value) -> HashMap<u8, f64> {
+	let data = &table_4["data"];
+	let mut A: HashMap<u8, f64> = HashMap::new();
+	for cid in 1..59 {
+		let value = &data[cid.to_string()]["a"].clone().as_f64().unwrap();
+		A.insert(cid, *value);
+	}
+	return A;
+}
+
+fn gen_qib(table_5: Value) -> HashMap<u8, f64>{
+	let default = *&table_5["default_value"].clone().as_f64().unwrap();
+	let mut QIB: HashMap<u8, f64> = HashMap::new();
+	for cid in 1..22 {
+		let value = *&table_5["data"][cid.to_string()]["Q"].clone().as_f64().unwrap_or(default);
+		QIB.insert(cid, value);
+	}
+	return QIB;
+}
+
 pub fn blockdata() {
 	//	Equation of state parameters
 	let table_4 = read_table(4);
+	let A = gen_a(table_4);
+	let table_5 = read_table(5);
+	let QIB = gen_qib(table_5);
+	dbg!(QIB);
 	/*
 	let A get A parameters from table 4
 	*/
-	let table_5 = read_table(5);
 	let table_6 = read_table(6);
 }
 
