@@ -21,7 +21,7 @@ fn get_table4() -> (HashMap<u8, f64>) {
 		let value = *&table_4["data"][cid.to_string()]["a"].clone().as_f64().unwrap();
 		A.insert(cid, value);
 	}
-	return A;
+	return (A);
 }
 
 fn get_table5() -> (HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>) {
