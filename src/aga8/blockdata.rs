@@ -40,23 +40,34 @@ fn gen_a(table_4: Value) -> HashMap<u8, f64> {
 	return A;
 }
 
-fn gen_qib(table_5: Value) -> HashMap<u8, f64>{
-	let default = *&table_5["default_value"].clone().as_f64().unwrap();
+fn get_table5() -> (HashMap<u8, f64>, HashMap<u8, f64>) {
+	let table_5 = read_table(5);
+	let default: f64 = *&table_5["default_value"].clone().as_f64().unwrap();
 	let mut QIB: HashMap<u8, f64> = HashMap::new();
+	let mut HIB: HashMap<u8, f64> = HashMap::new();
+	let fetch = | cid: u8, parameter: &str | -> f64 {
+		let index: String = cid.to_string();
+		let value: f64 = *&table_5["data"][index][parameter].clone().as_f64().unwrap_or(default);
+		return value;
+	};
+	let mut populate = | cid: u8 | {
+		QIB.insert(cid, fetch(cid, "Q"));
+		HIB.insert(cid, fetch(cid, "F"));
+	};
 	for cid in 1..22 {
-		let value = *&table_5["data"][cid.to_string()]["Q"].clone().as_f64().unwrap_or(default);
-		QIB.insert(cid, value);
+		populate(cid);
 	}
-	return QIB;
+	return (QIB, HIB);
 }
+
 
 pub fn blockdata() {
 	//	Equation of state parameters
 	let table_4 = read_table(4);
 	let A = gen_a(table_4);
-	let table_5 = read_table(5);
-	let QIB = gen_qib(table_5);
-	dbg!(QIB);
+	//	Individual Component Parameters
+	let (QIB, HIB) = get_table5();
+	dbg!(QIB, HIB);
 	/*
 	let A get A parameters from table 4
 	*/
