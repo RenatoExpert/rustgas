@@ -1,6 +1,7 @@
 use std::collections::HashMap;
-mod paramdl;
+//mod paramdl;
 mod chardl;
+mod blockdata;
 
 fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	let mut ncc: u8 = 0;
@@ -16,8 +17,9 @@ fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 
 pub fn detail(cid: HashMap<u8, f64>, tk: f64, pmp: f64) {
 	let ncc = get_ncc(cid.clone());
-	let params = paramdl::paramdl(ncc, cid.clone());
-	dbg!(params);
+	let blockdata = blockdata::blockdata();
+	//let params = paramdl::paramdl(ncc, cid.clone());
+	//dbg!(params);
 	let xi = cid.clone();
 	let (zb, db) = chardl::chardl(ncc, xi);
 	dbg!(zb, db);
