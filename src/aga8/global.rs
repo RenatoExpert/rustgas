@@ -5,6 +5,8 @@ pub type Binary = HashMap<(u8, u8), f64>;
 
 #[derive(Debug, Clone)]
 pub enum Parameter {
+	Counter(u8),
+	Attribute(f64),
 	Unary(Unary),
 	Binary(Binary)
 }
@@ -12,13 +14,17 @@ pub enum Parameter {
 impl Parameter {
 	pub fn capture_unary(&self, i: u8) -> f64 {
 		match self {
+			Parameter::Counter(_params) => panic!("capture_unary() not allowed to be used on Counters!"),
+			Parameter::Attribute(_params) => panic!("capture_unary() not allowed to be used on Attributes!"),
 			Parameter::Unary(params) => params[&i],
-			Parameter::Binary(_params) => panic!("capture_unary() not allowed to binary parameters!")
+			Parameter::Binary(_params) => panic!("capture_unary() not allowed to be used on binary parameters!")
 		}
 	}
 	pub fn capture_binary(&self, i: u8, j: u8) -> f64 {
 		match self {
-			Parameter::Unary(_params) => panic!("capture_binary() not allowed to unary parameters!"),
+			Parameter::Counter(_params) => panic!("capture_binary() not allowed to be used on Counters!"),
+			Parameter::Attribute(_params) => panic!("capture_binary() not allowed to be used on Attributes!"),
+			Parameter::Unary(_params) => panic!("capture_binary() not allowed to be used on unary parameters!"),
 			Parameter::Binary(params) => params[&(i, j)]
 		}
 	}
