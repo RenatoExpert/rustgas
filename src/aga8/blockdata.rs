@@ -5,13 +5,10 @@ use std::string::String;
 use std::io::Read;
 use std::collections::HashMap;
 
-type unary = HashMap<u8, f64>;
-type binary = HashMap<(u8, u8), f64>;
-#[derive(Debug)]
-pub enum Parameter {
-	Unary(unary),
-	Binary(binary)
-}
+use crate::aga8::global;
+use global::Parameter;
+use global::unary;
+use global::binary;
 
 fn read_table(table_num: u8) -> Value {
 	let path: String = format!("/var/rustgas/aga_tables/AGA8/table{}.json", table_num);

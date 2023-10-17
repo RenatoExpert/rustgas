@@ -1,10 +1,11 @@
 use std::collections::HashMap;
+mod global;
+mod blockdata;
 mod paramdl;
 mod chardl;
-mod blockdata;
 
 pub fn detail(cid: HashMap<u8, f64>, tk: f64, pmp: f64) {
-	let block_data: HashMap<&'static str, blockdata::Parameter> = blockdata::blockdata();
+	let block_data: HashMap<&'static str, global::Parameter> = blockdata::blockdata();
 	let params = paramdl::paramdl(cid, block_data);
 	//dbg!(params);
 	/*

@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use crate::aga8::global;
+
 fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	let mut ncc: u8 = 0;
 	for component in 1..=21 {
@@ -12,7 +14,7 @@ fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	return ncc;
 }
 
-pub fn paramdl(cid: HashMap<u8, f64>, block_data) /*-> HashMap<u8, f64>*/ {
+pub fn paramdl(cid: HashMap<u8, f64>, block_data: HashMap<&str, global::Parameter>) {
 	let ncc: u8 = get_ncc(cid);
 	dbg!(ncc);
 }
