@@ -13,12 +13,12 @@ impl Parameter {
 	pub fn capture_unary(&self, i: u8) -> f64 {
 		match self {
 			Parameter::Unary(params) => params[&i],
-			Parameter::Binary(params) => panic!("capture_unary() not allowed to binary parameters!")
+			Parameter::Binary(_params) => panic!("capture_unary() not allowed to binary parameters!")
 		}
 	}
 	pub fn capture_binary(&self, i: u8, j: u8) -> f64 {
 		match self {
-			Parameter::Unary(params) => panic!("capture_binary() not allowed to unary parameters!"),
+			Parameter::Unary(_params) => panic!("capture_binary() not allowed to unary parameters!"),
 			Parameter::Binary(params) => params[&(i, j)]
 		}
 	}
