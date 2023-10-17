@@ -21,12 +21,9 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let ncc: u8 = params["NCC"].unwrap_counter();
 	let xi: Unary = get_mole_fractions(ncc, cid);
 	let mut mwx: f64 = 0.0;
-	//	Get M from table 5
-	//let cmw
-	/*
 	for j in 1..ncc {
-		mwx += xi[&j] * table_5[&j]['M'];
+		mwx += xi.clone()[&j] * params["CMW"].capture_unary(j);
 	}
-	*/
+	dbg!(mwx);
 	return (0.0, 0.0);
 }
