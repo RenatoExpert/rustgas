@@ -11,7 +11,10 @@ fn read_table(table_num: u8) -> Value {
 	let path: String = format!("/var/rustgas/aga_tables/AGA8/table{}.json", table_num);
 	let mut file = File::open(path).unwrap();
 	let mut string_json = String::new();
-	file.read_to_string(&mut string_json);
+	let result = file.read_to_string(&mut string_json);
+	if let Err(e) = result {
+		panic!("Error on reading table {}, description: {}", table_num, e);
+	}
 	let table: Value = serde_json::from_str(&string_json).unwrap();
 	return table;
 }
