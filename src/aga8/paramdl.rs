@@ -68,7 +68,6 @@ pub fn paramdl(cid: HashMap<u8, f64>, block_data: ParameterSet) -> ParameterSet 
 	let phigh: f64 = 275.0;
 	let dhigh: f64 = 12.0;
 	//	Constants from block data
-	let mwx: f64 = 0.0;
 	let (cmw, rki, ei, wi, qi, hi, mi, di) = get_constants(block_data.clone(), ncc);
 	//	Binary parameters
 	let (beij, bkij, bwij, buij) = get_interaction(block_data.clone(), ncc);
@@ -81,7 +80,6 @@ pub fn paramdl(cid: HashMap<u8, f64>, block_data: ParameterSet) -> ParameterSet 
 		("PLOW", Parameter::Attribute(plow)),
 		("PHIGH", Parameter::Attribute(phigh)),
 		("DHIGH", Parameter::Attribute(dhigh)),
-		("MWX", Parameter::Attribute(mwx)),
 		("QI", Parameter::Unary(qi)),
 		("HI", Parameter::Unary(hi)),
 		("RKI", Parameter::Unary(rki)),
