@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::aga8::global;
-use global::{Parameter, Unary};
+use global::{Parameter, Unary, Binary};
 
 fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	let mut ncc: u8 = 0;
@@ -40,6 +40,25 @@ fn get_constants(block_data: HashMap<&str, global::Parameter>, ncc: u8) -> (Unar
 	return (cmw, rki, ei, wi, qi, hi, mi, di);
 }
 
+fn get_interaction(block_data: HashMap<&str, global::Parameter>, ncc: u8) -> (Binary, Binary, Binary, Binary) {
+	let mut beij: Binary = HashMap::new();
+	let mut bkij: Binary = HashMap::new();
+	let mut bwij: Binary = HashMap::new();
+	let mut buij: Binary = HashMap::new();
+	let extract = |param, j, k| -> f64 {
+		return block_data.get(param).unwrap().capture_binary(j, k);
+	};
+	for j in 1..=ncc {
+		for k in j+1..=ncc {
+			beij.insert((j, k), extract("BEIJB", j, k));
+			bkij.insert((j, k), extract("BKIJB", j, k));
+			bwij.insert((j, k), extract("BWIJB", j, k));
+			buij.insert((j, k), extract("BUIJB", j, k));
+		}
+	}
+	return (beij, bkij, bwij, buij);
+}
+
 pub fn paramdl(cid: HashMap<u8, f64>, block_data: HashMap<&str, global::Parameter>) {
 	let ncc: u8 = get_ncc(cid);
 	let told: f64 = 0.0;
@@ -51,7 +70,9 @@ pub fn paramdl(cid: HashMap<u8, f64>, block_data: HashMap<&str, global::Paramete
 	let dhigh: f64 = 12.0;
 	//	Constants from block data
 	let mwx: f64 = 0.0;
-	let (cmw, rki, ei, wi, qi, hi, mi, di) = get_constants(block_data, ncc);
-	dbg!(mi, di);
+	let (cmw, rki, ei, wi, qi, hi, mi, di) = get_constants(block_data.clone(), ncc);
+	//	Binary parameters
+	let (beij, bkij, bwij, buij) = get_interaction(block_data.clone(), ncc);
+	dbg!(beij);
 }
 
