@@ -16,6 +16,7 @@ fn read_table(table_num: u8) -> Value {
 	return table;
 }
 
+#[allow(unused_parens)]
 fn get_table4() -> (Unary) {
 	let table_4 = read_table(4);
 	let mut a: Unary = HashMap::new();
@@ -79,6 +80,7 @@ fn get_table6() -> (Binary, Binary, Binary, Binary) {
 	return (buijb, bkijb, beijb, bwijb);
 }
 
+#[allow(unused_parens)]
 pub fn blockdata() -> HashMap<&'static str, Parameter> {
 	//	Equation of state parameters
 	let (a) = get_table4();
