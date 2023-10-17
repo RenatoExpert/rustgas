@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 
-use crate::aga8::global;
-use global::{Unary, Binary, ParameterSet, Parameter};
+use crate::aga8::global::{Unary, Binary, ParameterSet, Parameter};
 
 fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	let mut ncc: u8 = 0;
@@ -40,7 +39,7 @@ fn get_constants(block_data: ParameterSet, ncc: u8) -> (Unary, Unary, Unary, Una
 	return (cmw, rki, ei, wi, qi, hi, mi, di);
 }
 
-fn get_interaction(block_data: HashMap<&str, global::Parameter>, ncc: u8) -> (Binary, Binary, Binary, Binary) {
+fn get_interaction(block_data: ParameterSet, ncc: u8) -> (Binary, Binary, Binary, Binary) {
 	let mut beij: Binary = HashMap::new();
 	let mut bkij: Binary = HashMap::new();
 	let mut bwij: Binary = HashMap::new();
