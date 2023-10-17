@@ -8,7 +8,7 @@ use std::collections::HashMap;
 type unary = HashMap<u8, f64>;
 type binary = HashMap<(u8, u8), f64>;
 #[derive(Debug)]
-enum Parameter {
+pub enum Parameter {
 	Unary(unary),
 	Binary(binary)
 }
@@ -85,7 +85,7 @@ fn get_table6() -> (binary, binary, binary, binary) {
 	return (BUIJB, BKIJB, BEIJB, BWIJB);
 }
 
-pub fn blockdata() {
+pub fn blockdata() -> HashMap<&'static str, Parameter> {
 	//	Equation of state parameters
 	let (A) = get_table4();
 	//	Individual Component Parameters
@@ -106,6 +106,6 @@ pub fn blockdata() {
 		("BEIJB", Parameter::Binary(BEIJB)),
 		("BWIJB", Parameter::Binary(BWIJB))
 	]);
-	dbg!(data);
+	return data;
 }
 
