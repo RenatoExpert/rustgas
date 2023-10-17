@@ -24,5 +24,6 @@ pub fn paramdl(cid: HashMap<u8, f64>, block_data: HashMap<&str, global::Paramete
 	let phigh: f64 = 275.0;
 	let dhigh: f64 = 12.0;
 	//	Constants from block data
+	let mwx: f64 = 0.0;
 }
 
