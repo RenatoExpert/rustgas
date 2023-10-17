@@ -51,16 +51,36 @@ fn get_table5() -> (HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>, HashMa
 	return (QIB, HIB, RKIB, EIB, WIB, CMWB, MIB);
 }
 
+fn get_table6() -> (HashMap<(u8, u8), f64>, HashMap<(u8, u8), f64>, HashMap<(u8, u8), f64>, HashMap<(u8, u8), f64>) {
+	let table_6 = read_table(6);
+	let default: f64 = *&table_6["default_value"].clone().as_f64().unwrap();
+	let mut BUIJB: HashMap<(u8, u8), f64> = HashMap::new();
+	let mut BKIJB: HashMap<(u8, u8), f64> = HashMap::new();
+	let mut BEIJB: HashMap<(u8, u8), f64> = HashMap::new();
+	let mut BWIJB: HashMap<(u8, u8), f64> = HashMap::new();
+	let fetch = | i_num: u8, j_num: u8, parameter: &str | -> f64 {
+		let i: String = i_num.to_string();
+		let j: String = j_num.to_string();
+		let value: f64 = *&table_6["data"][i][j][parameter].clone().as_f64().unwrap_or(default);
+		return value;
+	};
+	for i in 1..=20 {
+		for j in i+1..=21 {
+			BUIJB.insert((i, j), fetch(i, j, "U"));
+			BKIJB.insert((i, j), fetch(i, j, "K"));
+			BEIJB.insert((i, j), fetch(i, j, "E"));
+			BWIJB.insert((i, j), fetch(i, j, "G"));
+		}
+	}
+	return (BUIJB, BKIJB, BEIJB, BWIJB);
+}
 
 pub fn blockdata() {
 	//	Equation of state parameters
 	let (A) = get_table4();
 	//	Individual Component Parameters
 	let (QIB, HIB, RKIB, EIB, WIB, CMWB, MIB) = get_table5();
-	dbg!(QIB, HIB, RKIB, EIB, WIB, CMWB, MIB);
-	/*
-	let A get A parameters from table 4
-	*/
-	let table_6 = read_table(6);
+	let (BUIJ, BKIJB, BEIJB, BWIJB) = get_table6();
+	dbg!(BKIJB);
 }
 
