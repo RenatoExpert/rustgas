@@ -24,3 +24,4 @@ impl Parameter {
 	}
 }
 
+pub type ParameterSet = HashMap<&str, Parameter>;
