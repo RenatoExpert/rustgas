@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use crate::aga8::global;
+use global::unary;
 
 fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	let mut ncc: u8 = 0;
