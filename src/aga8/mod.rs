@@ -4,8 +4,8 @@ mod chardl;
 mod blockdata;
 
 pub fn detail(cid: HashMap<u8, f64>, tk: f64, pmp: f64) {
-	let blockdata: HashMap<&'static str, blockdata::Parameter> = blockdata::blockdata();
-	let params = paramdl::paramdl(cid);
+	let block_data: HashMap<&'static str, blockdata::Parameter> = blockdata::blockdata();
+	let params = paramdl::paramdl(cid, block_data);
 	//dbg!(params);
 	/*
 	let xi = cid.clone();
