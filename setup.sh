@@ -9,7 +9,7 @@ echo Ok!
 
 echo AGA Tables Reference
 echo Downloading...
-git submodule update
+git submodule update --remote
 cp -Rv aga_tables /var/rustgas
 echo Ok!
 
