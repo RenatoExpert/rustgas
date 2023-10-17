@@ -89,7 +89,7 @@ pub fn blockdata() -> HashMap<&'static str, Parameter> {
 	let (a) = get_table4();
 	//	Individual Component Parameters
 	let (qib, hib, rkib, eib, wib, cmwb, mib, dib) = get_table5();
-	let (buij, bkijb, beijb, bwijb) = get_table6();
+	let (buijb, bkijb, beijb, bwijb) = get_table6();
 	let data: HashMap<&str, Parameter> = HashMap::from([
 		("A", Parameter::Unary(a)),
 		("QIB", Parameter::Unary(qib)),
@@ -100,7 +100,7 @@ pub fn blockdata() -> HashMap<&'static str, Parameter> {
 		("CMWB", Parameter::Unary(cmwb)),
 		("MIB", Parameter::Unary(mib)),
 		("DIB", Parameter::Unary(dib)),
-		("BUIJ", Parameter::Binary(buij)),
+		("BUIJB", Parameter::Binary(buijb)),
 		("BKIJB", Parameter::Binary(bkijb)),
 		("BEIJB", Parameter::Binary(beijb)),
 		("BWIJB", Parameter::Binary(bwijb))
