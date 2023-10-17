@@ -12,7 +12,7 @@ fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	return ncc;
 }
 
-pub fn paramdl(cid: HashMap<u8, f64>) /*-> HashMap<u8, f64>*/ {
+pub fn paramdl(cid: HashMap<u8, f64>, block_data) /*-> HashMap<u8, f64>*/ {
 	let ncc: u8 = get_ncc(cid);
 	dbg!(ncc);
 }
