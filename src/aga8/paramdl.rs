@@ -15,13 +15,15 @@ fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	return ncc;
 }
 
-fn get_constants(block_data: HashMap<&str, global::Parameter>, ncc: u8) -> (Unary, Unary, Unary, Unary, Unary, Unary) {
+fn get_constants(block_data: HashMap<&str, global::Parameter>, ncc: u8) -> (Unary, Unary, Unary, Unary, Unary, Unary, Unary, Unary) {
 	let mut cmw: Unary = HashMap::new();
 	let mut rki: Unary = HashMap::new();
 	let mut ei: Unary = HashMap::new();
 	let mut wi: Unary = HashMap::new();
 	let mut qi: Unary = HashMap::new();
 	let mut hi: Unary = HashMap::new();
+	let mut mi: Unary = HashMap::new();
+	let mut di: Unary = HashMap::new();
 	let extract = |param, j| -> f64 {
 		return block_data.get(param).unwrap().capture_unary(j);
 	};
@@ -32,8 +34,10 @@ fn get_constants(block_data: HashMap<&str, global::Parameter>, ncc: u8) -> (Unar
 		wi.insert(j, extract("WIB", j));
 		qi.insert(j, extract("QIB", j));
 		hi.insert(j, extract("HIB", j));
+		mi.insert(j, extract("MIB", j));
+		di.insert(j, extract("DIB", j));
 	}
-	return (cmw, rki, ei, wi, qi, hi);
+	return (cmw, rki, ei, wi, qi, hi, mi, di);
 }
 
 pub fn paramdl(cid: HashMap<u8, f64>, block_data: HashMap<&str, global::Parameter>) {
@@ -47,7 +51,7 @@ pub fn paramdl(cid: HashMap<u8, f64>, block_data: HashMap<&str, global::Paramete
 	let dhigh: f64 = 12.0;
 	//	Constants from block data
 	let mwx: f64 = 0.0;
-	let (cmw, rki, ei, wi, qi, hi) = get_constants(block_data, ncc);
-	dbg!(qi, hi);
+	let (cmw, rki, ei, wi, qi, hi, mi, di) = get_constants(block_data, ncc);
+	dbg!(mi, di);
 }
 
