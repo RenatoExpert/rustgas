@@ -89,6 +89,20 @@ pub fn blockdata() {
 	//	Individual Component Parameters
 	let (QIB, HIB, RKIB, EIB, WIB, CMWB, MIB) = get_table5();
 	let (BUIJ, BKIJB, BEIJB, BWIJB) = get_table6();
-	dbg!(BKIJB);
+	let data: HashMap<&str, Parameter> = HashMap::from([
+		("A", Parameter::Unary(A)),
+		("QIB", Parameter::Unary(QIB)),
+		("HIB", Parameter::Unary(HIB)),
+		("RKIB", Parameter::Unary(RKIB)),
+		("EIB", Parameter::Unary(EIB)),
+		("WIB", Parameter::Unary(WIB)),
+		("CMWB", Parameter::Unary(CMWB)),
+		("MIB", Parameter::Unary(MIB)),
+		("BUIJ", Parameter::Binary(BUIJ)),
+		("BKIJB", Parameter::Binary(BKIJB)),
+		("BEIJB", Parameter::Binary(BEIJB)),
+		("BWIJB", Parameter::Binary(BWIJB))
+	]);
+	dbg!(data);
 }
 
