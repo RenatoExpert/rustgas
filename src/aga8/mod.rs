@@ -5,8 +5,8 @@ mod paramdl;
 //mod chardl;
 
 pub fn detail(cid: HashMap<u8, f64>, tk: f64, pmp: f64) {
-	let block_data: HashMap<&'static str, global::Parameter> = blockdata::blockdata();
-	let params = paramdl::paramdl(cid, block_data);
+	let block_data: global::ParameterSet = blockdata::blockdata();
+	let params: global::ParameterSet = paramdl::paramdl(cid, block_data);
 	//dbg!(params);
 	/*
 	let xi = cid.clone();
