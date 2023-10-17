@@ -2,15 +2,14 @@ use std::collections::HashMap;
 mod global;
 mod blockdata;
 mod paramdl;
-//mod chardl;
+mod chardl;
 
-pub fn detail(cid: HashMap<u8, f64>, tk: f64, pmp: f64) {
+pub fn detail(cid: global::Unary, tk: f64, pmp: f64) {
 	let block_data: global::ParameterSet = blockdata::blockdata();
-	let params: global::ParameterSet = paramdl::paramdl(cid, block_data);
-	//dbg!(params);
+	let params: global::ParameterSet = paramdl::paramdl(cid.clone(), block_data);
+	let (zb, db) = chardl::chardl(cid.clone(), params.clone());
 	/*
 	let xi = cid.clone();
-	let (zb, db) = chardl::chardl(ncc, xi);
 	dbg!(zb, db);
 	temp(tk);
 	d = ddetail(pmp, tk);
