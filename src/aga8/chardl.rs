@@ -16,14 +16,20 @@ fn get_mole_fractions(ncc: u8, cid: Unary) -> Unary {
 	return xi;
 }
 
-//	Returns compressibility and density for base state (zb, db)
-pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
-	let ncc: u8 = params["NCC"].unwrap_counter();
-	let xi: Unary = get_mole_fractions(ncc, cid);
+fn calc_molarmass(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	let mut mwx: f64 = 0.0;
 	for j in 1..=ncc {
 		mwx += xi.clone()[&j] * params["CMW"].capture_unary(j);
 	}
+	return mwx;
+}
+
+//	Returns compressibility and density for base state (zb, db)
+pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
+	let ncc: u8 = params["NCC"].unwrap_counter();
+	let xi: Unary = get_mole_fractions(ncc, cid);
+	let mwx: f64 = calc_molarmass(xi.clone(), params.clone(), ncc);
 	dbg!(mwx);
 	return (0.0, 0.0);
 }
+
