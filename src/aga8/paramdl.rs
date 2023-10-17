@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::aga8::global;
-use global::{Parameter, unary};
+use global::{Parameter, Unary};
 
 fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	let mut ncc: u8 = 0;
@@ -15,11 +15,11 @@ fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	return ncc;
 }
 
-fn get_constants(block_data: HashMap<&str, global::Parameter>, ncc: u8) -> (unary, unary, unary, unary) {
-	let mut cmw: unary = HashMap::new();
-	let mut rki: unary = HashMap::new();
-	let mut ei: unary = HashMap::new();
-	let mut wi: unary = HashMap::new();
+fn get_constants(block_data: HashMap<&str, global::Parameter>, ncc: u8) -> (Unary, Unary, Unary, Unary) {
+	let mut cmw: Unary = HashMap::new();
+	let mut rki: Unary = HashMap::new();
+	let mut ei: Unary = HashMap::new();
+	let mut wi: Unary = HashMap::new();
 	let extract = |param, j| -> f64 {
 		return block_data.get(param).unwrap().capture_unary(j);
 	};
