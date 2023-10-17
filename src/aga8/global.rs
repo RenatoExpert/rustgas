@@ -12,6 +12,12 @@ pub enum Parameter {
 }
 
 impl Parameter {
+	pub fn unwrap_counter(&self) -> u8 {
+		match self {
+			Parameter::Counter(counter) => return *counter,
+			_ => panic!("Variable is not a Counter")
+		}
+	}
 	pub fn capture_unary(&self, i: u8) -> f64 {
 		match self {
 			Parameter::Counter(_params) => panic!("capture_unary() not allowed to be used on Counters!"),
