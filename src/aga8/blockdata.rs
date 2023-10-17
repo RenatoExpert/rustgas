@@ -17,7 +17,7 @@ fn read_table(table_num: u8) -> Value {
 fn get_table4() -> (HashMap<u8, f64>) {
 	let table_4 = read_table(4);
 	let mut A: HashMap<u8, f64> = HashMap::new();
-	for cid in 1..59 {
+	for cid in 1..=58 {
 		let value = *&table_4["data"][cid.to_string()]["a"].clone().as_f64().unwrap();
 		A.insert(cid, value);
 	}
@@ -39,7 +39,7 @@ fn get_table5() -> (HashMap<u8, f64>, HashMap<u8, f64>, HashMap<u8, f64>, HashMa
 		let value: f64 = *&table_5["data"][index][parameter].clone().as_f64().unwrap_or(default);
 		return value;
 	};
-	for cid in 1..22 {
+	for cid in 1..=21 {
 		QIB.insert(cid, fetch(cid, "Q"));
 		HIB.insert(cid, fetch(cid, "F"));
 		RKIB.insert(cid, fetch(cid, "K"));
