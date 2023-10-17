@@ -1,11 +1,14 @@
 use std::collections::HashMap;
+use crate::aga8::global;
+use global::{Parameter, ParameterSet, Unary};
 
-fn get_xi(ncc: u8, cid: HashMap<u8, f64>) -> HashMap<u8, f64> {
+//	Get mole fractions
+fn get_mole_fractions(ncc: u8, cid: Unary) -> Unary {
 	let mut tmfrac: f64 = 0.0;
 	for j in 1..ncc {
 		tmfrac += cid[&j];
 	}
-	let mut xi: HashMap<u8, f64> = HashMap::new();
+	let mut xi: Unary = HashMap::new();
 	for j in 1..ncc {
 		let percentual = cid[&j] / tmfrac;
 		xi.insert(j, percentual);
@@ -14,8 +17,9 @@ fn get_xi(ncc: u8, cid: HashMap<u8, f64>) -> HashMap<u8, f64> {
 }
 
 //	Returns compressibility and density for base state (zb, db)
-pub fn chardl(ncc: u8, cid: HashMap<u8, f64>) -> (f64, f64) {
-	let xi = get_xi(ncc, cid);
+pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
+	let ncc: u8 = params["NCC"].unwrap_counter();
+	let xi: Unary = get_mole_fractions(ncc, cid);
 	let mut mwx: f64 = 0.0;
 	//	Get M from table 5
 	//let cmw
