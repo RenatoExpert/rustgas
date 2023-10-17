@@ -32,7 +32,7 @@ fn get_table4() -> (unary) {
 	return (A);
 }
 
-fn get_table5() -> (unary, unary, unary, unary, unary, unary, unary) {
+fn get_table5() -> (unary, unary, unary, unary, unary, unary, unary, unary) {
 	let table_5 = read_table(5);
 	let default: f64 = *&table_5["default_value"].clone().as_f64().unwrap();
 	let mut QIB: unary = HashMap::new();
@@ -42,6 +42,7 @@ fn get_table5() -> (unary, unary, unary, unary, unary, unary, unary) {
 	let mut WIB: unary = HashMap::new();
 	let mut CMWB: unary = HashMap::new();
 	let mut MIB: unary = HashMap::new();
+	let mut DIB: unary = HashMap::new();
 	let fetch = | cid: u8, parameter: &str | -> f64 {
 		let index: String = cid.to_string();
 		let value: f64 = *&table_5["data"][index][parameter].clone().as_f64().unwrap_or(default);
@@ -55,8 +56,9 @@ fn get_table5() -> (unary, unary, unary, unary, unary, unary, unary) {
 		WIB.insert(cid, fetch(cid, "G"));
 		CMWB.insert(cid, fetch(cid, "M"));
 		MIB.insert(cid, fetch(cid, "S"));
+		DIB.insert(cid, fetch(cid, "W"));
 	}
-	return (QIB, HIB, RKIB, EIB, WIB, CMWB, MIB);
+	return (QIB, HIB, RKIB, EIB, WIB, CMWB, MIB, DIB);
 }
 
 fn get_table6() -> (binary, binary, binary, binary) {
@@ -87,7 +89,7 @@ pub fn blockdata() {
 	//	Equation of state parameters
 	let (A) = get_table4();
 	//	Individual Component Parameters
-	let (QIB, HIB, RKIB, EIB, WIB, CMWB, MIB) = get_table5();
+	let (QIB, HIB, RKIB, EIB, WIB, CMWB, MIB, DIB) = get_table5();
 	let (BUIJ, BKIJB, BEIJB, BWIJB) = get_table6();
 	let data: HashMap<&str, Parameter> = HashMap::from([
 		("A", Parameter::Unary(A)),
@@ -98,6 +100,7 @@ pub fn blockdata() {
 		("WIB", Parameter::Unary(WIB)),
 		("CMWB", Parameter::Unary(CMWB)),
 		("MIB", Parameter::Unary(MIB)),
+		("DIB", Parameter::Unary(DIB)),
 		("BUIJ", Parameter::Binary(BUIJ)),
 		("BKIJB", Parameter::Binary(BKIJB)),
 		("BEIJB", Parameter::Binary(BEIJB)),
