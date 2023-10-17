@@ -16,17 +16,15 @@ fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 }
 
 fn get_constants(block_data: HashMap<&str, global::Parameter>, ncc: u8) -> (unary, unary) {
-	let cmw: unary = HashMap::new();
-	let rki: unary = HashMap::new();
+	let mut cmw: unary = HashMap::new();
+	let mut rki: unary = HashMap::new();
 	let extract = |param, j| -> f64 {
 		return block_data.get(param).unwrap().capture_unary(j);
 	};
 	for j in 1..=ncc {
-		let res = extract("CMWB", j);
-		dbg!(res);
-		//cmw.insert(j, Parameter::Unary(block_data["CMWB"]).get(j));
+		cmw.insert(j, extract("CMWB", j));
+		rki.insert(j, extract("RKIB", j));
 	}
-	dbg!(cmw.clone());
 	return (cmw, rki);
 }
 
@@ -42,5 +40,6 @@ pub fn paramdl(cid: HashMap<u8, f64>, block_data: HashMap<&str, global::Paramete
 	//	Constants from block data
 	let mwx: f64 = 0.0;
 	let (cmw, rki) = get_constants(block_data, ncc);
+	dbg!(cmw, rki);
 }
 
