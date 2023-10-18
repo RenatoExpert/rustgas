@@ -31,14 +31,14 @@ fn calc_mixturesize(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 		let ki = params["RKI"].capture_unary(i);
 		sum_a += xi[&i] + ki.powf(5./2.);
 	}
-	let part_a = sum_a.powf(2.);
+	let part_a = sum_a.powi(2);
 	let mut sum_b = 0.0;
 	for i in 1..=ncc-1 {
 		for j in i+1..=ncc {
 			let ki = params["RKI"].capture_unary(i);
 			let kj = params["RKI"].capture_unary(j);
 			let kij = params["BKIJ"].capture_binary(i, j);
-			sum_b += xi[&i] * xi[&j] * (kij.powf(5.) - 1.) * (ki * kj).powf(5./2.);
+			sum_b += xi[&i] * xi[&j] * (kij.powi(5) - 1.) * (ki * kj).powf(5./2.);
 		}
 	}
 	let part_b = 2.0 * sum_b;
@@ -53,14 +53,14 @@ fn calc_conformal(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 		let ei: f64 = params["EI"].capture_unary(i);
 		sum_a = xi[&i] * ei;
 	}
-	let part_a: f64 = sum_a.powf(2.);
+	let part_a: f64 = sum_a.powi(2);
 	let mut sum_b: f64 = 0.;
 	for i in 1..=ncc-1 {
 		for j in i+1..=ncc {
 			let ei: f64 = params["EI"].capture_unary(i);
 			let ej: f64 = params["EI"].capture_unary(j);
 			let uij: f64 = params["BUIJ"].capture_binary(i, j);
-			sum_b += xi[&i] * xi[&j] * (uij.powf(5.) - 1.) * (ei * ej).powf(5./2.);
+			sum_b += xi[&i] * xi[&j] * (uij.powi(5) - 1.) * (ei * ej).powf(5./2.);
 		}
 	}
 	let part_b: f64 = sum_b * 2.;
