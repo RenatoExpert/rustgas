@@ -76,7 +76,10 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let mwx: f64 = calc_molarmass(xi.clone(), params.clone(), ncc);
 	let k: f64 = calc_mixturesize(xi.clone(), params.clone(), ncc); 
 	let u: f64 = calc_conformal(xi.clone(), params.clone(), ncc); 
-	dbg!(k);
+	let g: f64;
+	let q: f64;
+	let f: f64;
+	dbg!(k, u);
 	return (0.0, 0.0);
 }
 
