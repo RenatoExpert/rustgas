@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use crate::aga8::global;
-use global::{Parameter, ParameterSet, Unary};
+use global::{Parameter, ParameterSet, Unary, Ternary};
 
 //	Get mole fractions
 fn get_mole_fractions(ncc: u8, cid: Unary) -> Unary {

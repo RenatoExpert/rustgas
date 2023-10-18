@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 pub type Unary = HashMap<u8, f64>;
 pub type Binary = HashMap<(u8, u8), f64>;
+pub type Ternary = HashMap<(u8, u8, u8), f64>;
 
 #[derive(Debug, Clone)]
 pub enum Parameter {
