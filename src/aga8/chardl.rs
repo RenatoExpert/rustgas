@@ -101,8 +101,8 @@ fn calc_quadrupole(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 fn calc_hightemp(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	let mut sum: f64 = 0.;
 	for i in 1..=ncc {
-		let qi: f64 = params["QI"].capture_unary(i);
-		sum += xi[&i].powi(2) * qi;
+		let fi: f64 = params["HI"].capture_unary(i);
+		sum += xi[&i].powi(2) * fi;
 	}
 	let f: f64 = sum;
 	return f;
