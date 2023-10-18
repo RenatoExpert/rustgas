@@ -88,6 +88,26 @@ fn calc_orientation(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	return g;
 }
 
+fn calc_quadrupole(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
+	let mut sum: f64 = 0.;
+	for i in 1..=ncc {
+		let qi: f64 = params["QI"].capture_unary(i);
+		sum += xi[&i] * qi;
+	}
+	let q: f64 = sum;
+	return q;
+}
+
+fn calc_hightemp(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
+	let mut sum: f64 = 0.;
+	for i in 1..=ncc {
+		let qi: f64 = params["QI"].capture_unary(i);
+		sum += xi[&i].powi(2) * qi;
+	}
+	let f: f64 = sum;
+	return f;
+}
+
 //	Returns compressibility and density for base state (zb, db)
 pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let ncc: u8 = params["NCC"].unwrap_counter();
@@ -96,8 +116,8 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let k: f64 = calc_mixturesize(xi.clone(), params.clone(), ncc); 
 	let u: f64 = calc_conformal(xi.clone(), params.clone(), ncc); 
 	let g: f64 = calc_orientation(xi.clone(), params.clone(), ncc);
-	let q: f64 = 0.0;
-	let f: f64 = 0.0;
+	let q: f64 = calc_quadrupole(xi.clone(), params.clone(), ncc);
+	let f: f64 = calc_hightemp(xi.clone(), params.clone(), ncc);
 	dbg!(mwx, k, u, g, q, f);
 	return (0.0, 0.0);
 }
