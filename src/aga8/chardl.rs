@@ -48,7 +48,6 @@ fn calc_mixturesize(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 }
 
 fn calc_conformal(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
-	let u: f64;
 	let mut sum_a: f64 = 0.;
 	for i in 1..=ncc {
 		let ei: f64 = params["EI"].capture_unary(i);
@@ -66,7 +65,7 @@ fn calc_conformal(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	}
 	let part_b: f64 = sum_b * 2.;
 	let up5: f64 = part_a + part_b;
-	u = up5.powf(1./5.);
+	let u: f64 = up5.abs().powf(0.2) * (up5/up5.abs());
 	return u;
 }
 
