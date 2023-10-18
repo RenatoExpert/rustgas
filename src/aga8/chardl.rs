@@ -47,12 +47,36 @@ fn calc_mixturesize(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	return k;
 }
 
+fn calc_conformal(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
+	let u: f64;
+	let mut sum_a: f64 = 0.;
+	for i in 1..=ncc {
+		let ei: f64 = params["EI"].capture_unary(i);
+		sum_a = xi[&i] + ei;
+	}
+	let part_a: f64 = sum_a.powf(2.);
+	let mut sum_b: f64 = 0.;
+	for i in 1..=ncc-1 {
+		for j in i+1..=ncc {
+			let ei: f64 = params["EI"].capture_unary(i);
+			let ej: f64 = params["EI"].capture_unary(j);
+			let uij: f64 = params["BUIJ"].capture_binary(i, j);
+			sum_b += xi[&i] * xi[&j] * (uij.powf(5.) - 1.) * (ei * ej).powf(5./2.);
+		}
+	}
+	let part_b: f64 = sum_b * 2.;
+	let up5: f64 = part_a + part_b;
+	u = up5.powf(1./5.);
+	return u;
+}
+
 //	Returns compressibility and density for base state (zb, db)
 pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let ncc: u8 = params["NCC"].unwrap_counter();
 	let xi: Unary = get_mole_fractions(ncc, cid);
 	let mwx: f64 = calc_molarmass(xi.clone(), params.clone(), ncc);
 	let k: f64 = calc_mixturesize(xi.clone(), params.clone(), ncc); 
+	let u: f64 = calc_conformal(xi.clone(), params.clone(), ncc); 
 	dbg!(k);
 	return (0.0, 0.0);
 }
