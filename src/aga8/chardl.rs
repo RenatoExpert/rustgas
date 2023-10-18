@@ -96,9 +96,9 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let k: f64 = calc_mixturesize(xi.clone(), params.clone(), ncc); 
 	let u: f64 = calc_conformal(xi.clone(), params.clone(), ncc); 
 	let g: f64 = calc_orientation(xi.clone(), params.clone(), ncc);
-	let q: f64;
-	let f: f64;
-	dbg!(k, u, g);
+	let q: f64 = 0.0;
+	let f: f64 = 0.0;
+	dbg!(mwx, k, u, g, q, f);
 	return (0.0, 0.0);
 }
 
