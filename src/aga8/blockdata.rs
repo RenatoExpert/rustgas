@@ -21,6 +21,7 @@ fn read_table(table_num: u8) -> Value {
 
 fn get_table4() -> (Unary, Unary, Unary, Unary, Unary, Unary, Unary, Unary, Unary, Unary) {
 	let table_4 = read_table(4);
+	let default: f64 = *&table_4["default_value"].clone().as_f64().unwrap();
 	let mut a: Unary = HashMap::new();
 	let mut b: Unary = HashMap::new();
 	let mut c: Unary = HashMap::new();
@@ -32,7 +33,7 @@ fn get_table4() -> (Unary, Unary, Unary, Unary, Unary, Unary, Unary, Unary, Unar
 	let mut s: Unary = HashMap::new();
 	let mut w: Unary = HashMap::new();
 	let fetch = |param: &'static str, num: u8| -> f64 {
-		return *&table_4["data"][num.to_string()][param].clone().as_f64().unwrap();
+		return *&table_4["data"][num.to_string()][param].clone().as_f64().unwrap_or(default);
 	};
 	for cid in 1..=58 {
 		a.insert(cid, fetch("a", cid));
