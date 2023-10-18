@@ -35,10 +35,10 @@ fn calc_mixturesize(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	let mut sum_b = 0.0;
 	for i in 1..=ncc-1 {
 		for j in i+1..=ncc {
-			let Ki = params["RKI"].capture_unary(i);
-			let Kj = params["RKI"].capture_unary(j);
-			let Kij = params["BKIJ"].capture_binary(i, j);
-			sum_b += xi[&i] * xi[&j] * (Kij.powf(5.) - 1.) * (Ki * Kj).powf(5./2.);
+			let ki = params["RKI"].capture_unary(i);
+			let kj = params["RKI"].capture_unary(j);
+			let kij = params["BKIJ"].capture_binary(i, j);
+			sum_b += xi[&i] * xi[&j] * (kij.powf(5.) - 1.) * (ki * kj).powf(5./2.);
 		}
 	}
 	let part_b = 2.0 * sum_b;
