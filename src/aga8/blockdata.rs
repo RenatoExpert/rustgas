@@ -19,15 +19,34 @@ fn read_table(table_num: u8) -> Value {
 	return table;
 }
 
-#[allow(unused_parens)]
-fn get_table4() -> (Unary) {
+fn get_table4() -> (Unary, Unary, Unary, Unary, Unary, Unary, Unary, Unary, Unary, Unary) {
 	let table_4 = read_table(4);
 	let mut a: Unary = HashMap::new();
+	let mut b: Unary = HashMap::new();
+	let mut c: Unary = HashMap::new();
+	let mut k: Unary = HashMap::new();
+	let mut u: Unary = HashMap::new();
+	let mut g: Unary = HashMap::new();
+	let mut q: Unary = HashMap::new();
+	let mut f: Unary = HashMap::new();
+	let mut s: Unary = HashMap::new();
+	let mut w: Unary = HashMap::new();
+	let fetch = |param: &'static str, num: u8| -> f64 {
+		return *&table_4["data"][num.to_string()][param].clone().as_f64().unwrap();
+	};
 	for cid in 1..=58 {
-		let value = *&table_4["data"][cid.to_string()]["a"].clone().as_f64().unwrap();
-		a.insert(cid, value);
+		a.insert(cid, fetch("a", cid));
+		b.insert(cid, fetch("b", cid));
+		c.insert(cid, fetch("c", cid));
+		k.insert(cid, fetch("k", cid));
+		u.insert(cid, fetch("u", cid));
+		g.insert(cid, fetch("g", cid));
+		q.insert(cid, fetch("q", cid));
+		f.insert(cid, fetch("f", cid));
+		s.insert(cid, fetch("s", cid));
+		w.insert(cid, fetch("w", cid));
 	}
-	return (a);
+	return (a, b, c, k, u, g, q, f, s, w);
 }
 
 fn get_table5() -> (Unary, Unary, Unary, Unary, Unary, Unary, Unary, Unary) {
@@ -83,15 +102,23 @@ fn get_table6() -> (Binary, Binary, Binary, Binary) {
 	return (buijb, bkijb, beijb, bwijb);
 }
 
-#[allow(unused_parens)]
 pub fn blockdata() -> HashMap<&'static str, Parameter> {
 	//	Equation of state parameters
-	let (a) = get_table4();
+	let (a, b, c, k, u, g, q, f, s, w) = get_table4();
 	//	Individual Component Parameters
 	let (qib, hib, rkib, eib, wib, cmwb, mib, dib) = get_table5();
 	let (buijb, bkijb, beijb, bwijb) = get_table6();
 	let data: HashMap<&str, Parameter> = HashMap::from([
 		("A", Parameter::Unary(a)),
+		("B", Parameter::Unary(b)),
+		("C", Parameter::Unary(c)),
+		("K", Parameter::Unary(k)),
+		("U", Parameter::Unary(u)),
+		("G", Parameter::Unary(g)),
+		("Q", Parameter::Unary(q)),
+		("F", Parameter::Unary(f)),
+		("S", Parameter::Unary(s)),
+		("W", Parameter::Unary(w)),
 		("QIB", Parameter::Unary(qib)),
 		("HIB", Parameter::Unary(hib)),
 		("RKIB", Parameter::Unary(rkib)),
