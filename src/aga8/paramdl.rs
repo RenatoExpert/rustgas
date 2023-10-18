@@ -72,7 +72,18 @@ pub fn paramdl(cid: HashMap<u8, f64>, block_data: ParameterSet) -> ParameterSet 
 	//	Binary parameters
 	let (beij, bkij, bwij, buij) = get_interaction(block_data.clone(), ncc);
 	let data: ParameterSet = HashMap::from([
+		("A", block_data.get("A").unwrap().clone()),
+		("B", block_data.get("B").unwrap().clone()),
+		("C", block_data.get("C").unwrap().clone()),
+		("K", block_data.get("K").unwrap().clone()),
+		("U", block_data.get("U").unwrap().clone()),
+		("G", block_data.get("G").unwrap().clone()),
+		("Q", block_data.get("Q").unwrap().clone()),
+		("F", block_data.get("F").unwrap().clone()),
+		("S", block_data.get("S").unwrap().clone()),
+		("W", block_data.get("W").unwrap().clone()),
 		("NCC", Parameter::Counter(ncc)),
+		("TOLD", Parameter::Attribute(told)),
 		("TOLD", Parameter::Attribute(told)),
 		("RGAS", Parameter::Attribute(rgas)),
 		("TLOW", Parameter::Attribute(tlow)),
