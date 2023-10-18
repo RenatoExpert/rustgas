@@ -69,6 +69,25 @@ fn calc_conformal(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	return u;
 }
 
+fn calc_orientation(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
+	let mut sum_a: f64 = 0.;
+	for i in 1..=ncc {
+		let gi: f64 = params["WI"].capture_unary(i);
+		sum_a = xi[&i] * gi;
+	}
+	let mut sum_b: f64 = 0.;
+	for i in 1..=ncc-1 {
+		for j in i+1..=ncc {
+			let ei: f64 = params["WI"].capture_unary(i);
+			let ej: f64 = params["WI"].capture_unary(j);
+			let uij: f64 = params["BWIJ"].capture_binary(i, j);
+			sum_b += xi[&i] * xi[&j] * (gij - 1.) * (gi + gj);
+		}
+	}
+	let up: f64 = sum_a + sum_b;
+	return g;
+}
+
 //	Returns compressibility and density for base state (zb, db)
 pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let ncc: u8 = params["NCC"].unwrap_counter();
