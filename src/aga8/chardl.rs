@@ -78,13 +78,13 @@ fn calc_orientation(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	let mut sum_b: f64 = 0.;
 	for i in 1..=ncc-1 {
 		for j in i+1..=ncc {
-			let ei: f64 = params["WI"].capture_unary(i);
-			let ej: f64 = params["WI"].capture_unary(j);
-			let uij: f64 = params["BWIJ"].capture_binary(i, j);
+			let gi: f64 = params["WI"].capture_unary(i);
+			let gj: f64 = params["WI"].capture_unary(j);
+			let gij: f64 = params["BWIJ"].capture_binary(i, j);
 			sum_b += xi[&i] * xi[&j] * (gij - 1.) * (gi + gj);
 		}
 	}
-	let up: f64 = sum_a + sum_b;
+	let g: f64 = sum_a + sum_b;
 	return g;
 }
 
@@ -95,10 +95,10 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let mwx: f64 = calc_molarmass(xi.clone(), params.clone(), ncc);
 	let k: f64 = calc_mixturesize(xi.clone(), params.clone(), ncc); 
 	let u: f64 = calc_conformal(xi.clone(), params.clone(), ncc); 
-	let g: f64;
+	let g: f64 = calc_orientation(xi.clone(), params.clone(), ncc);
 	let q: f64;
 	let f: f64;
-	dbg!(k, u);
+	dbg!(k, u, g);
 	return (0.0, 0.0);
 }
 
