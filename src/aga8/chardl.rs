@@ -51,7 +51,7 @@ fn calc_conformal(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	let mut sum_a: f64 = 0.;
 	for i in 1..=ncc {
 		let ei: f64 = params["EI"].capture_unary(i);
-		sum_a = xi[&i] + ei;
+		sum_a = xi[&i] * ei;
 	}
 	let part_a: f64 = sum_a.powf(2.);
 	let mut sum_b: f64 = 0.;
