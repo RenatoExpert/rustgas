@@ -65,7 +65,7 @@ fn calc_conformal(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	}
 	let part_b: f64 = sum_b * 2.;
 	let up5: f64 = part_a + part_b;
-	let u: f64 = up5.abs().powf(0.2) * (up5/up5.abs());
+	let u: f64 = up5.abs().powf(0.2) * (up5 / up5.abs());
 	return u;
 }
 
