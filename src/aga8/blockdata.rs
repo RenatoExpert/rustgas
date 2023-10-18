@@ -93,7 +93,7 @@ fn get_table6() -> (Binary, Binary, Binary, Binary) {
 		return value;
 	};
 	for i in 1..=20 {
-		for j in i+1..=21 {
+		for j in i..=21 {
 			buijb.insert((i, j), fetch(i, j, "U"));
 			bkijb.insert((i, j), fetch(i, j, "K"));
 			beijb.insert((i, j), fetch(i, j, "E"));
