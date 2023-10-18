@@ -108,6 +108,45 @@ fn calc_hightemp(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	return f;
 }
 
+fn calc_bnij(xi: Unary, params: ParameterSet, ncc: u8) -> Ternary {
+	let calc_gij = |i ,j| -> f64 {
+		let gijx: f64 = params["BWIJ"].capture_binary(i, j);
+		let gi: f64 = params["WI"].capture_unary(i);
+		let gj: f64 = params["WI"].capture_unary(j);
+		let gij: f64 = gijx * (gi + gj) / 2.0;
+		return gij;
+	};
+	let mut bnij: Ternary = HashMap::new();
+	for n in 1..=18 {
+		let gn: f64 = params["G"].capture_unary(n);
+		let qn: f64 = params["Q"].capture_unary(n);
+		let r#fn: f64 = params["F"].capture_unary(n);
+		let sn: f64 = params["S"].capture_unary(n);
+		let wn: f64 = params["W"].capture_unary(n);
+		for i in 1..=ncc {
+			let qi: f64 = params["QI"].capture_unary(i);
+			let fi: f64 = params["HI"].capture_unary(i);
+			let si: f64 = params["MI"].capture_unary(i);
+			let wi: f64 = params["DI"].capture_unary(i);
+			for j in 1..=ncc {
+				let qj: f64 = params["QI"].capture_unary(j);
+				let fj: f64 = params["HI"].capture_unary(j);
+				let sj: f64 = params["MI"].capture_unary(j);
+				let wj: f64 = params["DI"].capture_unary(j);
+				let gij: f64 = calc_gij(i, j);
+				let g: f64 = (gij + 1.0 - gn).powf(gn);
+				let q: f64 = ((qi * qj) + 1.0 - qn).powf(qn);
+				let f: f64 = ((fi.powf(0.5) * fj.powf(0.5)) + 1.0 - r#fn).powf(r#fn);
+				let s: f64 = ((si * sj) + 1.0 - sn).powf(sn);
+				let w: f64 = ((wi * wj) + 1.0 - wn).powf(wn);
+				let result: f64 = g * q * f * s * w;
+				bnij.insert((n, i, j), result);
+			}
+		}
+	}
+	return bnij;
+}
+
 //	Returns compressibility and density for base state (zb, db)
 pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let ncc: u8 = params["NCC"].unwrap_counter();
@@ -118,6 +157,8 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let g: f64 = calc_orientation(xi.clone(), params.clone(), ncc);
 	let q: f64 = calc_quadrupole(xi.clone(), params.clone(), ncc);
 	let f: f64 = calc_hightemp(xi.clone(), params.clone(), ncc);
+	let bnij: Ternary = calc_bnij(xi.clone(), params.clone(), ncc);
+	let cnast: Unary;
 	dbg!(mwx, k, u, g, q, f);
 	return (0.0, 0.0);
 }
