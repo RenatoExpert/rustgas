@@ -150,7 +150,6 @@ fn calc_bnij(xi: Unary, params: ParameterSet, ncc: u8) -> Ternary {
 fn calc_cnast(xi: Unary, params: ParameterSet, ncc: u8, g: f64, q: f64, f: f64, u: f64) -> Unary {
 	let mut cnast: Unary = HashMap::new();
 	for n in 13..=18 {
-		dbg!(n);
 		let an: f64 = params["A"].capture_unary(n); 
 		let gn: f64 = params["G"].capture_unary(n); 
 		let qn: f64 = params["Q"].capture_unary(n); 
@@ -162,6 +161,7 @@ fn calc_cnast(xi: Unary, params: ParameterSet, ncc: u8, g: f64, q: f64, f: f64, 
 		let expr3: f64 = (f + 1.0 - r#fn).powf(r#fn);
 		let expr4: f64 = u.powf(un);
 		let result: f64 = an * expr1 * expr2 * expr3 * expr4;
+		cnast.insert(n, result);
 	}
 	return cnast;
 }
@@ -177,7 +177,6 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> ParameterSet {
 	let q: f64 = calc_quadrupole(xi.clone(), params.clone(), ncc);
 	let f: f64 = calc_hightemp(xi.clone(), params.clone(), ncc);
 	let bnij: Ternary = calc_bnij(xi.clone(), params.clone(), ncc);
-	dbg!(bnij.clone());
 	let cnast: Unary = calc_cnast(xi.clone(), params.clone(), ncc, g, q, f, u);
 	let non_temp: ParameterSet = HashMap::from([
 		("Xi", Parameter::Unary(xi)),
