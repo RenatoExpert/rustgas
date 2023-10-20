@@ -23,12 +23,11 @@ impl Parameter {
 	pub fn capture_unary(&self, i: u8) -> f64 {
 		match self {
 			Parameter::Unary(params) => params[&i],
-			_ => panic!("Datatype not allowed to be used on Counters!")
+			_ => panic!("Datatype not allowed to use capture_unary!")
 		}
 	}
 	pub fn capture_binary(&self, i: u8, j: u8) -> f64 {
 		match self {
-			_ => panic!("Datatype not allowed to be used on Counters!"),
 			Parameter::Binary(params) => {
 				if let Some(&value) = params.get(&(i, j)) {
 					value
@@ -36,7 +35,8 @@ impl Parameter {
 					dbg!(&self, i, j);
 					panic!("key not found for binary parameters");
 				}
-			}
+			},
+			_ => panic!("Datatype not allowed to use capture_binary!")
 		}
 	}
 }
