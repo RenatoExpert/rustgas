@@ -39,6 +39,19 @@ impl Parameter {
 			_ => panic!("Datatype not allowed to use capture_binary!")
 		}
 	}
+	pub fn capture_ternary(&self, n: u8, i: u8, j: u8) -> f64 {
+		match self {
+			Parameter::Ternary(params) => {
+				if let Some(&value) = params.get(&(n, i, j)) {
+					value
+				} else {
+					dbg!(&self, n, i, j);
+					panic!("key not found for ternary parameters");
+				}
+			},
+			_ => panic!("Datatype not allowed to use capture_binary!")
+		}
+	}
 }
 
 pub type ParameterSet = HashMap<&'static str, Parameter>;
