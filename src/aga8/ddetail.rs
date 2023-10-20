@@ -5,12 +5,12 @@ fn pdetail(rho: f64, t: f64) -> f64 {
 	return pressure;
 }
 
-fn braket(t: f64, p: f64, k: f64, u: f64, rgas: f64) -> (f64, f64, f64, f64) {
-	let (code, rho, rhol, rhoh, prhol, prhoh): (u8, f64, f64, f64, f64, f64);
-	let rho1 = 0.0;
+fn braket(t: f64, p: f64, k: f64, u: f64, rgas: f64, bmix: f64) -> (f64, f64, f64, f64) {
+	let (rho, rhol, rhoh, prhol, prhoh): (f64, f64, f64, f64, f64);
+	let mut rho1 = 0.0;
 	let mut rho2;
-	let p1 = 0.0;
-	let rhomax = 1.0 / k;
+	let mut p1 = 0.0;
+	let mut rhomax = 1.0 / k;
 	if t > 1.2593 * u {
 		rhomax = 20.0 * rhomax
 	}
@@ -22,8 +22,8 @@ fn braket(t: f64, p: f64, k: f64, u: f64, rgas: f64) -> (f64, f64, f64, f64) {
 	}
 	//	Note: pressure (p2) at density rho2 not yet calculated
 	let mut del = rho2 / 2.0;
-	let code = 0;
 	let imax = 200;
+	let mut code = 0;
 	for it in 1..=imax {
 		if code != 2 && rho2 > rhomax {
 			//	Density in braket exceeds maximum allowable density
@@ -64,7 +64,7 @@ fn braket(t: f64, p: f64, k: f64, u: f64, rgas: f64) -> (f64, f64, f64, f64) {
 	panic!("Code 3: Maximum number of iterations exceeded");
 }
 
-pub fn ddetail(p: f64, t: f64, non_temp: ParameterSet) -> f64 {
+pub fn ddetail(p: f64, t: f64, bmix: f64, non_temp: ParameterSet) -> f64 {
 	let imax = 150;
 	let epsp = 1.0e-6;
 	let epsr = 1.0e-6;
@@ -73,7 +73,7 @@ pub fn ddetail(p: f64, t: f64, non_temp: ParameterSet) -> f64 {
 	//	removed rho
 	//	let k = non_temp.get("K").get_attribute();
 	//	let rgas = non_temp.get("RGAS").get_attribute();
-	//(rhol, rhoh, prhol, prhoh) = braket(t, p, k, u, rgas);
+	//(rhol, rhoh, prhol, prhoh) = braket(t, p, k, u, rgas, bmix);
 	//	There is more code here
 	let d = 0.0;
 	return d;
