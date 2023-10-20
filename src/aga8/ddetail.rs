@@ -64,15 +64,16 @@ fn braket(t: f64, p: f64, k: f64, u: f64, rgas: f64, bmix: f64) -> (f64, f64, f6
 	panic!("Code 3: Maximum number of iterations exceeded");
 }
 
-pub fn ddetail(p: f64, t: f64, bmix: f64, non_temp: ParameterSet) -> f64 {
+pub fn ddetail(p: f64, t: f64, bmix: f64, non_temp: ParameterSet, params: ParameterSet) -> f64 {
 	let imax = 150;
 	let epsp = 1.0e-6;
 	let epsr = 1.0e-6;
 	let epsmin = 1.0e-7;
 	let code = 0;
 	//	removed rho
-	//	let k = non_temp.get("K").get_attribute();
-	//	let rgas = non_temp.get("RGAS").get_attribute();
+	let k = non_temp.get("K").unwrap().clone().unwrap_attribute();
+	let rgas = params.get("RGAS").unwrap().clone().unwrap_attribute();
+	dbg!(k, rgas);
 	//(rhol, rhoh, prhol, prhoh) = braket(t, p, k, u, rgas, bmix);
 	//	There is more code here
 	let d = 0.0;
