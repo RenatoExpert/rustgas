@@ -108,7 +108,7 @@ fn calc_hightemp(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	return f;
 }
 
-fn calc_bnij(xi: Unary, params: ParameterSet, ncc: u8) -> Ternary {
+fn calc_bnij(params: ParameterSet, ncc: u8) -> Ternary {
 	let calc_gij = |i ,j| -> f64 {
 		let gijx: f64 = params["BWIJ"].capture_binary(i, j);
 		let gi: f64 = params["WI"].capture_unary(i);
@@ -147,7 +147,7 @@ fn calc_bnij(xi: Unary, params: ParameterSet, ncc: u8) -> Ternary {
 	return bnij;
 }
 
-fn calc_cnast(xi: Unary, params: ParameterSet, ncc: u8, g: f64, q: f64, f: f64, u: f64) -> Unary {
+fn calc_cnast(params: ParameterSet, g: f64, q: f64, f: f64, u: f64) -> Unary {
 	let mut cnast: Unary = HashMap::new();
 	for n in 13..=18 {
 		let an: f64 = params["A"].capture_unary(n); 
@@ -155,7 +155,6 @@ fn calc_cnast(xi: Unary, params: ParameterSet, ncc: u8, g: f64, q: f64, f: f64, 
 		let qn: f64 = params["Q"].capture_unary(n); 
 		let un: f64 = params["U"].capture_unary(n); 
 		let r#fn: f64 = params["F"].capture_unary(n); 
-		dbg!(an, gn, qn, un, r#fn);
 		let expr1: f64 = (g + 1.0 - gn).powf(gn);
 		let expr2: f64 = (q.powi(2) + 1.0 - qn).powf(qn);
 		let expr3: f64 = (f + 1.0 - r#fn).powf(r#fn);
@@ -176,8 +175,11 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> ParameterSet {
 	let g: f64 = calc_orientation(xi.clone(), params.clone(), ncc);
 	let q: f64 = calc_quadrupole(xi.clone(), params.clone(), ncc);
 	let f: f64 = calc_hightemp(xi.clone(), params.clone(), ncc);
-	let bnij: Ternary = calc_bnij(xi.clone(), params.clone(), ncc);
-	let cnast: Unary = calc_cnast(xi.clone(), params.clone(), ncc, g, q, f, u);
+	let bnij: Ternary = calc_bnij(params.clone(), ncc);
+	let cnast: Unary = calc_cnast(params.clone(), g, q, f, u);
+	let tb: f64 = (60.0 + 459.67) / 1.8;
+	let pb: f64 = 14.73 * 6894.757 * 1e-6;
+	dbg!(tb, pb);
 	let non_temp: ParameterSet = HashMap::from([
 		("Xi", Parameter::Unary(xi)),
 		("M", Parameter::Attribute(m)),
