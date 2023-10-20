@@ -227,7 +227,7 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> ParameterSet {
 	let tb: f64 = (60.0 + 459.67) / 1.8;
 	let pb: f64 = 14.73 * 6894.757 * 1e-6;
 	let base_bmix: f64 = calc_b(non_temp.clone(), params.clone(), ncc, tb);
-	//let db: f64 = ddetail(pb, tb, non_temp);
+	//let db: f64 = ddetail(pb, tb, base_bmix, non_temp);
 	dbg!(tb, pb, base_bmix);
 	return non_temp;
 }
