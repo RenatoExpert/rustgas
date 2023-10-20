@@ -147,6 +147,25 @@ fn calc_bnij(xi: Unary, params: ParameterSet, ncc: u8) -> Ternary {
 	return bnij;
 }
 
+fn calc_cnast(xi: Unary, params: ParameterSet, ncc: u8, g: f64, q: f64, f: f64, u: f64) -> Unary {
+	let mut cnast: Unary = HashMap::new();
+	for n in 13..=18 {
+		dbg!(n);
+		let an: f64 = params["A"].capture_unary(n); 
+		let gn: f64 = params["G"].capture_unary(n); 
+		let qn: f64 = params["Q"].capture_unary(n); 
+		let un: f64 = params["U"].capture_unary(n); 
+		let r#fn: f64 = params["F"].capture_unary(n); 
+		dbg!(an, gn, qn, un, r#fn);
+		let expr1: f64 = (g + 1.0 - gn).powf(gn);
+		let expr2: f64 = (q.powi(2) + 1.0 - qn).powf(qn);
+		let expr3: f64 = (f + 1.0 - r#fn).powf(r#fn);
+		let expr4: f64 = u.powf(un);
+		let result: f64 = an * expr1 * expr2 * expr3 * expr4;
+	}
+	return cnast;
+}
+
 //	Returns compressibility and density for base state (zb, db)
 pub fn chardl(cid: Unary, params: ParameterSet) -> ParameterSet {
 	let ncc: u8 = params["NCC"].unwrap_counter();
@@ -158,7 +177,8 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> ParameterSet {
 	let q: f64 = calc_quadrupole(xi.clone(), params.clone(), ncc);
 	let f: f64 = calc_hightemp(xi.clone(), params.clone(), ncc);
 	let bnij: Ternary = calc_bnij(xi.clone(), params.clone(), ncc);
-	let cnast: Unary;
+	dbg!(bnij.clone());
+	let cnast: Unary = calc_cnast(xi.clone(), params.clone(), ncc, g, q, f, u);
 	let non_temp: ParameterSet = HashMap::from([
 		("Xi", Parameter::Unary(xi)),
 		("M", Parameter::Attribute(m)),
