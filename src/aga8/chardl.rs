@@ -1,6 +1,7 @@
 use std::collections::HashMap;
-use crate::aga8::global;
-use global::{Parameter, ParameterSet, Unary, Ternary};
+use crate::aga8::{ global, ddetail };
+use ddetail::ddetail;
+use global::{ Parameter, ParameterSet, Unary, Ternary };
 
 //	Get mole fractions
 fn get_mole_fractions(ncc: u8, cid: Unary) -> Unary {
@@ -179,6 +180,7 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> ParameterSet {
 	let cnast: Unary = calc_cnast(params.clone(), g, q, f, u);
 	let tb: f64 = (60.0 + 459.67) / 1.8;
 	let pb: f64 = 14.73 * 6894.757 * 1e-6;
+	let db: f64 = ddetail(pb, tb);
 	dbg!(tb, pb);
 	let non_temp: ParameterSet = HashMap::from([
 		("Xi", Parameter::Unary(xi)),

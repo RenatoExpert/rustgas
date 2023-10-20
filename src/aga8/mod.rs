@@ -2,6 +2,7 @@ mod global;
 mod blockdata;
 mod paramdl;
 mod chardl;
+mod ddetail;
 
 pub fn detail(cid: global::Unary, tk: f64, pmp: f64) {
 	let block_data: global::ParameterSet = blockdata::blockdata();
