@@ -148,10 +148,10 @@ fn calc_bnij(xi: Unary, params: ParameterSet, ncc: u8) -> Ternary {
 }
 
 //	Returns compressibility and density for base state (zb, db)
-pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
+pub fn chardl(cid: Unary, params: ParameterSet) -> ParameterSet {
 	let ncc: u8 = params["NCC"].unwrap_counter();
 	let xi: Unary = get_mole_fractions(ncc, cid);
-	let mwx: f64 = calc_molarmass(xi.clone(), params.clone(), ncc);
+	let m: f64 = calc_molarmass(xi.clone(), params.clone(), ncc);
 	let k: f64 = calc_mixturesize(xi.clone(), params.clone(), ncc); 
 	let u: f64 = calc_conformal(xi.clone(), params.clone(), ncc); 
 	let g: f64 = calc_orientation(xi.clone(), params.clone(), ncc);
@@ -159,7 +159,17 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> (f64, f64) {
 	let f: f64 = calc_hightemp(xi.clone(), params.clone(), ncc);
 	let bnij: Ternary = calc_bnij(xi.clone(), params.clone(), ncc);
 	let cnast: Unary;
-	dbg!(mwx, k, u, g, q, f);
-	return (0.0, 0.0);
+	let non_temp: ParameterSet = HashMap::from([
+		("Xi", Parameter::Unary(xi)),
+		("M", Parameter::Attribute(m)),
+		("K", Parameter::Attribute(k)),
+		("U", Parameter::Attribute(u)),
+		("G", Parameter::Attribute(g)),
+		("Q", Parameter::Attribute(q)),
+		("F", Parameter::Attribute(f)),
+		("Bnij", Parameter::Ternary(bnij)),
+		("Cnast", Parameter::Unary(cnast))
+	]);
+	return non_temp;
 }
 
