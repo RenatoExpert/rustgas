@@ -14,10 +14,16 @@ pub enum Parameter {
 }
 
 impl Parameter {
+	pub fn unwrap_attribute(&self) -> f64 {
+		match self {
+			Parameter::Attribute(value) => return *value,
+			_ => panic!("variable is not a counter")
+		}
+	}
 	pub fn unwrap_counter(&self) -> u8 {
 		match self {
 			Parameter::Counter(counter) => return *counter,
-			_ => panic!("Variable is not a Counter")
+			_ => panic!("variable is not a counter")
 		}
 	}
 	pub fn capture_unary(&self, i: u8) -> f64 {
