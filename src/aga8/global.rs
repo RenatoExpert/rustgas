@@ -9,7 +9,8 @@ pub enum Parameter {
 	Counter(u8),
 	Attribute(f64),
 	Unary(Unary),
-	Binary(Binary)
+	Binary(Binary),
+	Ternary(Ternary)
 }
 
 impl Parameter {
@@ -21,17 +22,13 @@ impl Parameter {
 	}
 	pub fn capture_unary(&self, i: u8) -> f64 {
 		match self {
-			Parameter::Counter(_params) => panic!("capture_unary() not allowed to be used on Counters!"),
-			Parameter::Attribute(_params) => panic!("capture_unary() not allowed to be used on Attributes!"),
 			Parameter::Unary(params) => params[&i],
-			Parameter::Binary(_params) => panic!("capture_unary() not allowed to be used on binary parameters!")
+			_ => panic!("Datatype not allowed to be used on Counters!")
 		}
 	}
 	pub fn capture_binary(&self, i: u8, j: u8) -> f64 {
 		match self {
-			Parameter::Counter(_params) => panic!("capture_binary() not allowed to be used on Counters!"),
-			Parameter::Attribute(_params) => panic!("capture_binary() not allowed to be used on Attributes!"),
-			Parameter::Unary(_params) => panic!("capture_binary() not allowed to be used on unary parameters!"),
+			_ => panic!("Datatype not allowed to be used on Counters!"),
 			Parameter::Binary(params) => {
 				if let Some(&value) = params.get(&(i, j)) {
 					value
