@@ -32,7 +32,14 @@ impl Parameter {
 			Parameter::Counter(_params) => panic!("capture_binary() not allowed to be used on Counters!"),
 			Parameter::Attribute(_params) => panic!("capture_binary() not allowed to be used on Attributes!"),
 			Parameter::Unary(_params) => panic!("capture_binary() not allowed to be used on unary parameters!"),
-			Parameter::Binary(params) => params[&(i, j)]
+			Parameter::Binary(params) => {
+				if let Some(&value) = params.get(&(i, j)) {
+					value
+				} else {
+					dbg!(&self, i, j);
+					panic!("key not found for binary parameters");
+				}
+			}
 		}
 	}
 }
