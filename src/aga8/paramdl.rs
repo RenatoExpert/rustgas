@@ -48,7 +48,7 @@ fn get_interaction(block_data: ParameterSet, ncc: u8) -> (Binary, Binary, Binary
 		return block_data.get(param).unwrap().capture_binary(j, k);
 	};
 	for j in 1..=ncc {
-		for k in j+1..=ncc {
+		for k in 1..=ncc {
 			beij.insert((j, k), extract("BEIJB", j, k));
 			bkij.insert((j, k), extract("BKIJB", j, k));
 			bwij.insert((j, k), extract("BWIJB", j, k));
