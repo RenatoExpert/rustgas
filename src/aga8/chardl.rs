@@ -169,8 +169,8 @@ fn calc_cnast(params: ParameterSet, g: f64, q: f64, f: f64, u: f64) -> Unary {
 //	Split this function to another file
 fn calc_b(non_temp: ParameterSet, params: ParameterSet, ncc: u8, t: f64) -> f64 {
 	let b: f64;
-	let x: Paramter::Unary = non_temp.get("Xi").unwrap();
-	let bnij: Parameter::Ternary = non_temp.get("Bnij").unwrap();
+	let x: Parameter = non_temp.get("Xi").unwrap().clone();
+	let bnij: Parameter = non_temp.get("Bnij").unwrap().clone();
 	let calc_eij = |i ,j| -> f64 {
 		let eijx: f64 = params["BEIJ"].capture_binary(i, j);
 		let ei: f64 = params["EI"].capture_unary(i);
@@ -184,10 +184,10 @@ fn calc_b(non_temp: ParameterSet, params: ParameterSet, ncc: u8, t: f64) -> f64 
 		let an: f64 = params["A"].capture_unary(n); 
 		let mut sum_ij: f64 = 0.0;
 		for i in 1..=ncc {
-			let xi: f64 = x[&i];
+			let xi: f64 = x.capture_unary(i);
 			let ki: f64 = params["RKI"].capture_unary(i);
 			for j in 1..=ncc {
-				let xj: f64 = x[&j];
+				let xj: f64 = x.capture_unary(j);
 				let kj: f64 = params["RKI"].capture_unary(j);
 				let eij: f64 = calc_eij(i, j);
 				let expr1: f64 = eij.powf(un);
