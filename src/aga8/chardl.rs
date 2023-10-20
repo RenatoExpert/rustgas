@@ -166,6 +166,41 @@ fn calc_cnast(params: ParameterSet, g: f64, q: f64, f: f64, u: f64) -> Unary {
 	return cnast;
 }
 
+//	Split this function to another file
+fn calc_b(non_temp: ParameterSet, params: ParameterSet, ncc: u8, t: f64) -> f64 {
+	let b: f64;
+	let x: Paramter::Unary = non_temp.get("Xi").unwrap();
+	let bnij: Parameter::Ternary = non_temp.get("Bnij").unwrap();
+	let calc_eij = |i ,j| -> f64 {
+		let eijx: f64 = params["BEIJ"].capture_binary(i, j);
+		let ei: f64 = params["EI"].capture_unary(i);
+		let ej: f64 = params["EI"].capture_unary(j);
+		let eij: f64 = eijx * (ei * ej).powf(0.5);
+		return eij;
+	};
+	let mut sum_n: f64 = 0.0;
+	for n in 1..=18 {
+		let un: f64 = params["U"].capture_unary(n); 
+		let an: f64 = params["A"].capture_unary(n); 
+		let mut sum_ij: f64 = 0.0;
+		for i in 1..=ncc {
+			let xi: f64 = x[&i];
+			let ki: f64 = params["RKI"].capture_unary(i);
+			for j in 1..=ncc {
+				let xj: f64 = x[&j];
+				let kj: f64 = params["RKI"].capture_unary(j);
+				let eij: f64 = calc_eij(i, j);
+				let expr1: f64 = eij.powf(un);
+				let expr2: f64 = (ki * kj).powf(3.0/2.0);
+				sum_ij += xi * xj * expr1 * expr2 * bnij.capture_ternary(n, i, j);
+			}
+		}
+		sum_n += an * t.powf(-un) + sum_ij;
+	}
+	b = sum_n;
+	return b;
+}
+
 //	Returns compressibility and density for base state (zb, db)
 pub fn chardl(cid: Unary, params: ParameterSet) -> ParameterSet {
 	let ncc: u8 = params["NCC"].unwrap_counter();
@@ -178,10 +213,6 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> ParameterSet {
 	let f: f64 = calc_hightemp(xi.clone(), params.clone(), ncc);
 	let bnij: Ternary = calc_bnij(params.clone(), ncc);
 	let cnast: Unary = calc_cnast(params.clone(), g, q, f, u);
-	let tb: f64 = (60.0 + 459.67) / 1.8;
-	let pb: f64 = 14.73 * 6894.757 * 1e-6;
-	let db: f64 = ddetail(pb, tb);
-	dbg!(tb, pb);
 	let non_temp: ParameterSet = HashMap::from([
 		("Xi", Parameter::Unary(xi)),
 		("M", Parameter::Attribute(m)),
@@ -193,6 +224,11 @@ pub fn chardl(cid: Unary, params: ParameterSet) -> ParameterSet {
 		("Bnij", Parameter::Ternary(bnij)),
 		("Cnast", Parameter::Unary(cnast))
 	]);
+	let tb: f64 = (60.0 + 459.67) / 1.8;
+	let pb: f64 = 14.73 * 6894.757 * 1e-6;
+	let base_bmix: f64 = calc_b(non_temp.clone(), params.clone(), ncc, tb);
+	//let db: f64 = ddetail(pb, tb, non_temp);
+	dbg!(tb, pb, base_bmix);
 	return non_temp;
 }
 
