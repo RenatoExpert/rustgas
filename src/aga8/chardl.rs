@@ -99,11 +99,14 @@ fn calc_quadrupole(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	return q;
 }
 
-fn calc_hightemp(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
+fn calc_hightemp(x: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	let mut sum: f64 = 0.;
 	for i in 1..=ncc {
 		let fi: f64 = params["HI"].capture_unary(i);
-		sum += xi[&i].powi(2) * fi;
+		let xi = x[&i];
+		let result = xi.powi(2) * fi;
+		sum += result;
+		dbg!(i, fi, xi, result, sum);
 	}
 	let f: f64 = sum;
 	return f;
@@ -150,6 +153,7 @@ fn calc_bnij(params: ParameterSet, ncc: u8) -> Ternary {
 
 fn calc_cnast(params: ParameterSet, g: f64, q: f64, f: f64, u: f64) -> Unary {
 	let mut cnast: Unary = HashMap::new();
+	dbg!(g, q, f, u);
 	for n in 13..=58 {
 		let an: f64 = params["A"].capture_unary(n); 
 		let gn: f64 = params["G"].capture_unary(n); 
@@ -161,6 +165,7 @@ fn calc_cnast(params: ParameterSet, g: f64, q: f64, f: f64, u: f64) -> Unary {
 		let expr3: f64 = (f + 1.0 - r#fn).powf(r#fn);
 		let expr4: f64 = u.powf(un);
 		let result: f64 = an * expr1 * expr2 * expr3 * expr4;
+		//dbg!(n, an, gn, qn, un, result);
 		cnast.insert(n, result);
 	}
 	return cnast;
