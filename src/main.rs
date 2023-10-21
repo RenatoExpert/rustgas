@@ -9,13 +9,13 @@ fn main() {
 	composition.insert(3, 0.9850);
 	composition.insert(4, 3.3000);
 	composition.insert(5, 0.6050);
-	composition.insert(6, 0.1000);
-	composition.insert(7, 0.1040);
+	composition.insert(6, 0.0000);
+	composition.insert(7, 0.0000);
 	composition.insert(8, 0.0000);
 	composition.insert(9, 0.0000);
 	composition.insert(10, 0.0000);
-	composition.insert(11, 0.0000);
-	composition.insert(12, 0.0000);
+	composition.insert(11, 0.1000);
+	composition.insert(12, 0.1040);
 	composition.insert(13, 0.0000);
 	composition.insert(14, 0.0000);
 	composition.insert(15, 0.0000);
