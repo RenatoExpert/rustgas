@@ -21,7 +21,7 @@ fn zdetail(d: f64, t: f64, bmix: f64, params: ParameterSet, non_temp: ParameterS
 		let part1: f64 = cnast * t.powf(-un);
 		let part2: f64 = bn - (cn * kn * dbig.powf(kn));
 		let part3: f64 = dbig.powf(bn);
-		let part4: f64 = (-c * dbig.powf(kn)).exp(); 
+		let part4: f64 = (-cn * dbig.powf(kn)).exp(); 
 		sum_3 += part1 * part2 * part3 * part4;
 	}
 	let part3: f64 = sum_3;
