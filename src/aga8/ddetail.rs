@@ -1,11 +1,46 @@
 use crate::aga8::global::ParameterSet;
 
-fn pdetail(rho: f64, t: f64) -> f64 {
-	let pressure = 0.0;
+fn zdetail(d: f64, t: f64, bmix: f64, params: ParameterSet, non_temp: ParameterSet) -> f64 {
+	let k = non_temp.get("K").unwrap().clone().unwrap_attribute();
+	//	Needs bmix, k, table4
+	let z: f64;
+	let dbig: f64 = k.powi(3) * d;
+	let part1: f64 = dbig * bmix / k.powi(3);
+	let mut sum_2: f64 = 0.0;
+	for n in 13..=18 {
+		let un: f64 = params["U"].capture_unary(n); 
+		sum_2 += cnast * t.powf(-un);
+	}
+	let part2: f64 = dbig * sum_2;
+	let mut sum_3: f64 = 0.0;
+	for n in 13..=58 {
+		let bn: f64 = params["B"].capture_unary(n); 
+		let cn: f64 = params["C"].capture_unary(n); 
+		let kn: f64 = params["K"].capture_unary(n); 
+		let un: f64 = params["U"].capture_unary(n); 
+		let part1: f64 = cnast * t.powf(-un);
+		let part2: f64 = bn - (cn * kn * dbig.powf(kn));
+		let part3: f64 = dbig.powf(bn);
+		let part4: f64 = (-c * dbig.powf(kn)).exp(); 
+		sum_3 += part1 * part2 * part3 * part4;
+	}
+	let part3: f64 = sum_3;
+	z = 1 + part1 - part2 + part3;
+	return z;
+}
+
+fn pdetail(d: f64, t: f64, bmix: f64, params: ParameterSet, non_temp: ParameterSet) -> f64 {
+	let z: f64 = zdetail(d, t, bmix, params, non_temp);
+	let r = params.get("RGAS").unwrap().clone().unwrap_attribute();
+	let pressure: f64 = z * d * r * t;
 	return pressure;
 }
 
-fn braket(t: f64, p: f64, k: f64, u: f64, rgas: f64, bmix: f64) -> (f64, f64, f64, f64) {
+fn braket(t: f64, p: f64, bmix: f64, params: ParameterSet, non_temp: ParameterSet) -> (f64, f64, f64, f64) {
+	let k = non_temp.get("K").unwrap().clone().unwrap_attribute();
+	let u = non_temp.get("U").unwrap().clone().unwrap_attribute();
+	let rgas = params.get("RGAS").unwrap().clone().unwrap_attribute();
+	dbg!(k, rgas);
 	let (rho, rhol, rhoh, prhol, prhoh): (f64, f64, f64, f64, f64);
 	let mut rho1 = 0.0;
 	let mut rho2;
@@ -34,7 +69,7 @@ fn braket(t: f64, p: f64, k: f64, u: f64, rgas: f64, bmix: f64) -> (f64, f64, f6
 			continue;
 		}
 		//	Calculate pressure P2 at density RHO2
-		let p2 = pdetail(rho2, t);
+		let p2 = pdetail(rho2, t, bmix, params, non_temp);
 		//	Test value of P2 relative to P and relative to P1
 		if p2 > p {
 			//	The density of root is bracketed (P1<P and P2>P)
@@ -71,10 +106,7 @@ pub fn ddetail(p: f64, t: f64, bmix: f64, non_temp: ParameterSet, params: Parame
 	let epsmin = 1.0e-7;
 	let code = 0;
 	//	removed rho
-	let k = non_temp.get("K").unwrap().clone().unwrap_attribute();
-	let rgas = params.get("RGAS").unwrap().clone().unwrap_attribute();
-	dbg!(k, rgas);
-	//(rhol, rhoh, prhol, prhoh) = braket(t, p, k, u, rgas, bmix);
+	//(rhol, rhoh, prhol, prhoh) = braket(t, p, bmix, params, non_temp);
 	//	There is more code here
 	let d = 0.0;
 	return d;
