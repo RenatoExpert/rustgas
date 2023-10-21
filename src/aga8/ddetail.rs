@@ -28,6 +28,7 @@ fn zdetail(d: f64, t: f64, bmix: f64, params: ParameterSet, non_temp: ParameterS
 	}
 	let part3: f64 = sum_3;
 	z = 1.0 + part1 - part2 + part3;
+	dbg!(z);
 	return z;
 }
 
@@ -35,6 +36,7 @@ fn pdetail(d: f64, t: f64, bmix: f64, params: ParameterSet, non_temp: ParameterS
 	let z: f64 = zdetail(d, t, bmix, params.clone(), non_temp.clone());
 	let r = params.get("RGAS").unwrap().clone().unwrap_attribute();
 	let pressure: f64 = z * d * r * t;
+	dbg!(pressure);
 	return pressure;
 }
 
@@ -108,7 +110,7 @@ pub fn ddetail(p: f64, t: f64, bmix: f64, non_temp: ParameterSet, params: Parame
 	let epsmin = 1.0e-7;
 	let code = 0;
 	//	removed rho
-	//(rhol, rhoh, prhol, prhoh) = braket(t, p, bmix, params, non_temp);
+	let (rhol, rhoh, prhol, prhoh) = braket(t, p, bmix, params, non_temp);
 	//	There is more code here
 	let d = 0.0;
 	return d;
