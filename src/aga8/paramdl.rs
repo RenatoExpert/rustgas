@@ -4,13 +4,17 @@ use crate::aga8::global::{Unary, Binary, ParameterSet, Parameter};
 
 fn get_ncc(cid: HashMap<u8, f64>) -> u8 {
 	let mut ncc: u8 = 0;
-	for component in 1..=21 {
+	let mut count: bool = false;
+	for reverse in 1..=21 {
+		let component: u8 = 22 - reverse;
 		if cid[&component] > 0.0 {
+			count = true;
+		}
+		if count {
 			ncc += 1;
-		} else {
-			break;
 		}
 	}
+	dbg!(ncc);
 	return ncc;
 }
 
