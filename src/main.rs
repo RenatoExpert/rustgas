@@ -24,6 +24,7 @@ fn main() {
 	composition.insert(18, 0.0000);
 	composition.insert(19, 0.0000);
 	composition.insert(20, 0.0000);
+	composition.insert(21, 0.0000);
 	let tk = 300.0;
 	let pmp = 250000.0;
 	aga8::detail(composition, tk, pmp);
