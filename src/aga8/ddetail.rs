@@ -9,11 +9,13 @@ fn zdetail(d: f64, t: f64, bmix: f64, params: ParameterSet, non_temp: ParameterS
 	let mut sum_2: f64 = 0.0;
 	for n in 13..=18 {
 		let un: f64 = params["U"].capture_unary(n); 
+		let cnast = non_temp.get("Cnast").unwrap().clone().capture_unary(n);
 		sum_2 += cnast * t.powf(-un);
 	}
 	let part2: f64 = dbig * sum_2;
 	let mut sum_3: f64 = 0.0;
 	for n in 13..=58 {
+		let cnast = non_temp.get("Cnast").unwrap().clone().capture_unary(n);
 		let bn: f64 = params["B"].capture_unary(n); 
 		let cn: f64 = params["C"].capture_unary(n); 
 		let kn: f64 = params["K"].capture_unary(n); 
@@ -25,12 +27,12 @@ fn zdetail(d: f64, t: f64, bmix: f64, params: ParameterSet, non_temp: ParameterS
 		sum_3 += part1 * part2 * part3 * part4;
 	}
 	let part3: f64 = sum_3;
-	z = 1 + part1 - part2 + part3;
+	z = 1.0 + part1 - part2 + part3;
 	return z;
 }
 
 fn pdetail(d: f64, t: f64, bmix: f64, params: ParameterSet, non_temp: ParameterSet) -> f64 {
-	let z: f64 = zdetail(d, t, bmix, params, non_temp);
+	let z: f64 = zdetail(d, t, bmix, params.clone(), non_temp.clone());
 	let r = params.get("RGAS").unwrap().clone().unwrap_attribute();
 	let pressure: f64 = z * d * r * t;
 	return pressure;
@@ -69,7 +71,7 @@ fn braket(t: f64, p: f64, bmix: f64, params: ParameterSet, non_temp: ParameterSe
 			continue;
 		}
 		//	Calculate pressure P2 at density RHO2
-		let p2 = pdetail(rho2, t, bmix, params, non_temp);
+		let p2 = pdetail(rho2, t, bmix, params.clone(), non_temp.clone());
 		//	Test value of P2 relative to P and relative to P1
 		if p2 > p {
 			//	The density of root is bracketed (P1<P and P2>P)
