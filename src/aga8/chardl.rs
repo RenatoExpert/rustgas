@@ -106,7 +106,6 @@ fn calc_hightemp(x: Unary, params: ParameterSet, ncc: u8) -> f64 {
 		let xi = x[&i];
 		let result = xi.powi(2) * fi;
 		sum += result;
-		dbg!(i, fi, xi, result, sum);
 	}
 	let f: f64 = sum;
 	return f;
