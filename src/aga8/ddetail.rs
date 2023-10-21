@@ -7,6 +7,8 @@ fn zdetail(d: f64, t: f64, bmix: f64, params: ParameterSet, non_temp: ParameterS
 	let dbig: f64 = k.powi(3) * d;
 	let part1: f64 = dbig * bmix / k.powi(3);
 	let mut sum_2: f64 = 0.0;
+	let cnast_param = non_temp.get("Cnast").unwrap();
+	dbg!(cnast_param);
 	for n in 13..=18 {
 		let un: f64 = params["U"].capture_unary(n); 
 		let cnast = non_temp.get("Cnast").unwrap().clone().capture_unary(n);
@@ -110,7 +112,7 @@ pub fn ddetail(p: f64, t: f64, bmix: f64, non_temp: ParameterSet, params: Parame
 	let epsmin = 1.0e-7;
 	let code = 0;
 	//	removed rho
-	let (rhol, rhoh, prhol, prhoh) = braket(t, p, bmix, params, non_temp);
+	let (rhol, rhoh, prhol, prhoh) = braket(t, p, bmix, params.clone(), non_temp.clone());
 	//	There is more code here
 	let d = 0.0;
 	return d;
