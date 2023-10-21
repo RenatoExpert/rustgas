@@ -55,7 +55,7 @@ fn calc_conformal(x: Unary, params: ParameterSet, ncc: u8) -> f64 {
 		let xi: f64 = x[&i];
 		let result: f64 = xi * ei;
 		sum_a += result;
-		dbg!(i, ei, xi, result, sum_a);
+		//dbg!(i, ei, xi, result, sum_a);
 	}
 	let part_a: f64 = sum_a.powi(2);
 	let mut sum_b: f64 = 0.;
@@ -69,13 +69,13 @@ fn calc_conformal(x: Unary, params: ParameterSet, ncc: u8) -> f64 {
 			let xixj: f64 = xi * xj;
 			let result : f64 = xixj * (uij.powi(5) - 1.) * (ei * ej).powf(5./2.);
 			sum_b += result;
-			dbg!(i, j, xi, xj, xixj, ei, ej, uij, result, sum_b);
+			//dbg!(i, j, xi, xj, xixj, ei, ej, uij, result, sum_b);
 		}
 	}
 	let part_b: f64 = sum_b * 2.;
 	let up5: f64 = part_a + part_b;
 	let u: f64 = up5.abs().powf(0.2) * (up5 / up5.abs());
-	dbg!(part_a, part_b, up5, u);
+	//dbg!(part_a, part_b, up5, u);
 	return u;
 }
 
