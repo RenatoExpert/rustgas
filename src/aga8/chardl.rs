@@ -150,7 +150,7 @@ fn calc_bnij(params: ParameterSet, ncc: u8) -> Ternary {
 
 fn calc_cnast(params: ParameterSet, g: f64, q: f64, f: f64, u: f64) -> Unary {
 	let mut cnast: Unary = HashMap::new();
-	for n in 13..=18 {
+	for n in 13..=58 {
 		let an: f64 = params["A"].capture_unary(n); 
 		let gn: f64 = params["G"].capture_unary(n); 
 		let qn: f64 = params["Q"].capture_unary(n); 
