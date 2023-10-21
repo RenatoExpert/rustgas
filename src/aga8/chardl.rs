@@ -48,11 +48,14 @@ fn calc_mixturesize(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	return k;
 }
 
-fn calc_conformal(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
+fn calc_conformal(x: Unary, params: ParameterSet, ncc: u8) -> f64 {
 	let mut sum_a: f64 = 0.;
 	for i in 1..=ncc {
 		let ei: f64 = params["EI"].capture_unary(i);
-		sum_a = xi[&i] * ei;
+		let xi: f64 = x[&i];
+		let result: f64 = xi * ei;
+		sum_a += result;
+		dbg!(i, ei, xi, result, sum_a);
 	}
 	let part_a: f64 = sum_a.powi(2);
 	let mut sum_b: f64 = 0.;
@@ -61,12 +64,18 @@ fn calc_conformal(xi: Unary, params: ParameterSet, ncc: u8) -> f64 {
 			let ei: f64 = params["EI"].capture_unary(i);
 			let ej: f64 = params["EI"].capture_unary(j);
 			let uij: f64 = params["BUIJ"].capture_binary(i, j);
-			sum_b += xi[&i] * xi[&j] * (uij.powi(5) - 1.) * (ei * ej).powf(5./2.);
+			let xi: f64 = x[&i];
+			let xj: f64 = x[&j];
+			let xixj: f64 = xi * xj;
+			let result : f64 = xixj * (uij.powi(5) - 1.) * (ei * ej).powf(5./2.);
+			sum_b += result;
+			dbg!(i, j, xi, xj, xixj, ei, ej, uij, result, sum_b);
 		}
 	}
 	let part_b: f64 = sum_b * 2.;
 	let up5: f64 = part_a + part_b;
 	let u: f64 = up5.abs().powf(0.2) * (up5 / up5.abs());
+	dbg!(part_a, part_b, up5, u);
 	return u;
 }
 
@@ -152,7 +161,7 @@ fn calc_bnij(params: ParameterSet, ncc: u8) -> Ternary {
 
 fn calc_cnast(params: ParameterSet, g: f64, q: f64, f: f64, u: f64) -> Unary {
 	let mut cnast: Unary = HashMap::new();
-	dbg!(g, q, f, u);
+	//dbg!(g, q, f, u);
 	for n in 13..=58 {
 		let an: f64 = params["A"].capture_unary(n); 
 		let gn: f64 = params["G"].capture_unary(n); 
@@ -164,7 +173,7 @@ fn calc_cnast(params: ParameterSet, g: f64, q: f64, f: f64, u: f64) -> Unary {
 		let expr3: f64 = (f + 1.0 - r#fn).powf(r#fn);
 		let expr4: f64 = u.powf(un);
 		let result: f64 = an * expr1 * expr2 * expr3 * expr4;
-		//dbg!(n, an, gn, qn, un, result);
+		//dbg!(n, an, gn, qn, un, expr1, expr2, expr3, expr4, result);
 		cnast.insert(n, result);
 	}
 	return cnast;
