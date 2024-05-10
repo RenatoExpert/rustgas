@@ -3,7 +3,8 @@ RUN apk add git
 WORKDIR /app
 RUN cargo init
 COPY Cargo.toml Cargo.lock .
-RUN cargo build --release
+RUN cargo build --release	&& \
+	rm target/release/deps/rustgas*
 COPY .gitmodules .
 RUN git submodule init				&& \
 	mkdir -p /var/rustgas			&& \
