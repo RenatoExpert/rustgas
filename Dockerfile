@@ -3,7 +3,8 @@ RUN apk add git
 WORKDIR /app
 COPY . .
 RUN git submodule init
-RUN ln -s /app/aga_tables /src
+RUN mkdir -p /var/rustgas
+RUN ln -s /app/aga_tables /var/rustgas
 RUN git submodule update
 RUN cargo build
 CMD cargo run
