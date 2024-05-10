@@ -17,3 +17,5 @@ CMD cargo run
 FROM scratch as release
 WORKDIR /release
 COPY --from=build /app/target/release .
+CMD ["/release/rustgas"]
+
