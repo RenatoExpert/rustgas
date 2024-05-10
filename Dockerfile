@@ -1,14 +1,15 @@
 FROM rust:1.78.0-alpine3.19
 RUN apk add git
 WORKDIR /app
+RUN cargo init
 COPY Cargo.toml Cargo.lock .
-RUN cargo install
+RUN cargo build --release
 COPY .gitmodules .
 RUN git submodule init				&& \
 	mkdir -p /var/rustgas			&& \
 	ln -s /app/aga_tables /var/rustgas	&& \
 	git submodule update
-COPY src .
+COPY src src
 RUN cargo build
 CMD cargo run
 
