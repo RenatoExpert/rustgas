@@ -4,6 +4,7 @@ WORKDIR /app
 COPY . .
 RUN git submodule init
 RUN ln -s /app/aga_tables /src
+RUN git submodule update
 RUN cargo build
 CMD cargo run
 
