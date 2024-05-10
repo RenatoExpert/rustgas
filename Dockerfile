@@ -1,4 +1,4 @@
-FROM rust:1.78.0-alpine3.19
+FROM rust:1.78.0-alpine3.19 as build
 RUN apk add git
 WORKDIR /app
 RUN cargo init
@@ -14,3 +14,6 @@ COPY src src
 RUN cargo build --release
 CMD cargo run
 
+FROM scratch as release
+WORKDIR /release
+COPY --from=build /app/target/release .
