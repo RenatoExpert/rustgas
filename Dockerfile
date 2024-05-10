@@ -14,7 +14,7 @@ RUN cargo build --release
 CMD cargo run
 
 FROM scratch as release
-WORKDIR /var/rustgas
+WORKDIR /var/rustgas/aga_tables
 COPY --from=build /app/aga_tables .
 WORKDIR /release
 COPY --from=build /app/target/release .
