@@ -11,6 +11,6 @@ RUN git submodule init				&& \
 	ln -s /app/aga_tables /var/rustgas	&& \
 	git submodule update
 COPY src src
-RUN cargo build
+RUN cargo build --release
 CMD cargo run
 
