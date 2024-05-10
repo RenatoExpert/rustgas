@@ -1,8 +1,9 @@
 FROM rust:1.78.0-alpine3.19 as build
 WORKDIR /app
 ADD https://github.com/renatoexpert/aga_tables/archive/main.zip /tmp/main.zip
-RUN mkdir -p /var/rustgas			&& \
-	unzip /tmp/main.zip -d /app/aga_tables	&& \
+RUN unzip /tmp/main.zip -d /tmp/aga_tables	&& \
+	cp -r /tmp/aga_tables/* /app/aga_tables	&& \
+	mkdir -p /var/rustgas			&& \
 	ln -s /app/aga_tables /var/rustgas
 RUN cargo init
 COPY Cargo.toml Cargo.lock .
