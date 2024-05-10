@@ -6,6 +6,7 @@ COPY Cargo.toml Cargo.lock .
 RUN cargo build --release			&& \
 	rm target/release/deps/rustgas*
 COPY .gitmodules .
+COPY aga_tables aga_tables
 RUN git submodule init				&& \
 	mkdir -p /var/rustgas			&& \
 	ln -s /app/aga_tables /var/rustgas	&& \
@@ -16,7 +17,7 @@ CMD cargo run
 
 FROM scratch as release
 WORKDIR /var/rustgas
-COPY --from=build /app/aga_tables .
+COPY --from=build aga_tables .
 WORKDIR /release
 COPY --from=build /app/target/release .
 CMD ["/release/rustgas"]
